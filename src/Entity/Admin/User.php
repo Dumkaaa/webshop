@@ -120,7 +120,7 @@ class User implements UserInterface, TimestampableInterface
      */
     public function getRoles(): ?array
     {
-        return array_merge($this->roles, [ self::ROLE_USER ]);
+        return array_merge($this->roles, [self::ROLE_USER]);
     }
 
     /**
@@ -178,7 +178,7 @@ class User implements UserInterface, TimestampableInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }

@@ -12,7 +12,7 @@ class UserTest extends TestCase
     public function testConstruct(): void
     {
         $user = new User();
-        
+
         $this->assertNull($user->getId());
         $this->assertCount(1, $user->getRoles());
         $this->assertSame(User::ROLE_USER, $user->getRoles()[0]);
@@ -52,14 +52,14 @@ class UserTest extends TestCase
         $user->setPlainPassword('Pl41nP4$$w0rd');
         $this->assertSame('Pl41nP4$$w0rd', $user->getPlainPassword());
     }
-    
+
     public function testEraseCredentials(): void
     {
         $user = new User();
-        
+
         $user->setPlainPassword('Pl41nP4$$w0rd');
         $this->assertSame('Pl41nP4$$w0rd', $user->getPlainPassword());
-        
+
         $user->eraseCredentials();
         $this->assertNull($user->getPlainPassword());
     }

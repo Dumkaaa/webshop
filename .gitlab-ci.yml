@@ -1,5 +1,12 @@
 image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
+services:
+    - mysql:latest
+
+variables:
+    MYSQL_DATABASE: $MYSQL_DB
+    MYSQL_ROOT_PASSWORD: $MYSQL_PASS
+
 cache:
     paths:
         - ./vendor/

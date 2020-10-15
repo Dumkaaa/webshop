@@ -40,6 +40,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.16",
         "jakub-onderka/php-console-highlighter": "^0.4.0",
         "jakub-onderka/php-parallel-lint": "^1.0",
@@ -122,6 +123,10 @@
             "@dumpcheck"
         ],
         "phpunit": [
+            "bin/console doctrine:database:drop --force --env=test",
+            "bin/console doctrine:database:create --env=test",
+            "bin/console doctrine:schema:create --env=test",
+            "bin/console doctrine:fixtures:load -n --env=test",
             "bin/phpunit --coverage-text --colors=never tests"
         ]
     },
