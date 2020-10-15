@@ -16,7 +16,6 @@ cache:
 before_script:
     - sudo chmod +x ./bin/console
     - sudo chmod +x ./bin/phpunit
-    - docker-php-ext-install pdo_mysql zip
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress
     - bin/phpunit
 
