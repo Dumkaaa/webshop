@@ -6,40 +6,44 @@ use App\Repository\Admin\UserRepository;
 use App\Timestampable\TimestampableEntity;
 use App\Timestampable\TimestampableInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User implements TimestampableInterface
+class User implements UserInterface, TimestampableInterface
 {
     use TimestampableEntity;
+
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $emailAddress;
+    private string $emailAddress;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $firstName;
+    private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $lastName;
+    private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="json")
@@ -53,12 +57,17 @@ class User implements TimestampableInterface
      */
     private bool $isEnabled = false;
 
+    /**
+     * Non-mapped password used for password generation.
+     */
+    private ?string $plainPassword = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmailAddress(): ?string
+    public function getEmailAddress(): string
     {
         return $this->emailAddress;
     }
@@ -70,7 +79,7 @@ class User implements TimestampableInterface
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
@@ -82,7 +91,7 @@ class User implements TimestampableInterface
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
         return $this->lastName;
     }
@@ -94,7 +103,7 @@ class User implements TimestampableInterface
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -111,7 +120,7 @@ class User implements TimestampableInterface
      */
     public function getRoles(): ?array
     {
-        return $this->roles;
+        return array_merge($this->roles, [ self::ROLE_USER ]);
     }
 
     /**
@@ -126,7 +135,7 @@ class User implements TimestampableInterface
         return $this;
     }
 
-    public function getIsEnabled(): ?bool
+    public function isEnabled(): bool
     {
         return $this->isEnabled;
     }
@@ -136,5 +145,41 @@ class User implements TimestampableInterface
         $this->isEnabled = $isEnabled;
 
         return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUsername()
+    {
+        return $this->getEmailAddress();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function eraseCredentials()
+    {
+        $this->plainPassword = null;
     }
 }

@@ -9,14 +9,14 @@ trait TimestampableEntity
     /**
      * @ORM\Column(type="datetime")
      */
-    protected ?\DateTimeInterface $createdAt;
+    protected \DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    protected ?\DateTimeInterface $lastUpdatedAt;
+    protected \DateTimeInterface $lastUpdatedAt;
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -26,7 +26,7 @@ trait TimestampableEntity
         $this->createdAt = $createdAt;
     }
 
-    public function getLastUpdatedAt(): ?\DateTimeInterface
+    public function getLastUpdatedAt(): \DateTimeInterface
     {
         return $this->lastUpdatedAt;
     }
