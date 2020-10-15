@@ -1,7 +1,7 @@
 image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
 services:
-    - mysql:latest
+    - mariadb:latest
 
 variables:
     MYSQL_DATABASE: webshop
@@ -29,4 +29,8 @@ lint:
 test:
     stage: test
     script:
+        - apk --no-cache add mysql-client
+        - mysql --version
+        - sleep 20
+        - echo "SHOW tables;"| mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h 127.0.0.1 "${MYSQL_DATABASE}"
         - composer phpunit
