@@ -4,8 +4,8 @@ services:
     - mysql:latest
 
 variables:
-    MYSQL_DATABASE: $MYSQL_DB
-    MYSQL_ROOT_PASSWORD: $MYSQL_PASS
+    MYSQL_DATABASE: webshop
+    MYSQL_ROOT_PASSWORD: admin
 
 cache:
     paths:
