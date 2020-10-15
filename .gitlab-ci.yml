@@ -1,11 +1,13 @@
 image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
 services:
-    - mariadb:latest
+    - mysql:latest
 
 variables:
-    MYSQL_DATABASE: webshop
-    MYSQL_ROOT_PASSWORD: admin
+    MYSQL_DATABASE: database
+    MYSQL_USER: runner
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_PASSWORD: password
 
 cache:
     paths:
@@ -14,6 +16,7 @@ cache:
 before_script:
     - sudo chmod +x ./bin/console
     - sudo chmod +x ./bin/phpunit
+    - docker-php-ext-install pdo_mysql zip
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress
     - bin/phpunit
 
@@ -29,8 +32,4 @@ lint:
 test:
     stage: test
     script:
-        - apk --no-cache add mysql-client
-        - mysql --version
-        - sleep 20
-        - echo "SHOW tables;"| mysql -u root -p"$MYSQL_ROOT_PASSWORD" -h 127.0.0.1 "${MYSQL_DATABASE}"
         - composer phpunit
