@@ -1,0 +1,25 @@
+image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
+
+cache:
+    paths:
+        - ./vendor/
+
+before_script:
+    - sudo chmod +x ./bin/console
+    - sudo chmod +x ./bin/phpunit
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress
+    - bin/phpunit
+
+stages:
+    - lint
+    - test
+
+lint:
+    stage: lint
+    script:
+        - composer lint
+
+test:
+    stage: test
+    script:
+        - composer phpunit
