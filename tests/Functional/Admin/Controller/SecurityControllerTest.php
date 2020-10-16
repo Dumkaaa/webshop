@@ -31,6 +31,9 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseRedirects('/');
     }
 
+    /**
+     * Test login after being redirected because the user was unauthorized to visit a page.
+     */
     public function testLoginFromRedirect(): void
     {
         $client = static::createClient();
@@ -47,6 +50,7 @@ class SecurityControllerTest extends WebTestCase
             '_csrf_token' => $csrfTokenManager->getToken('authenticate'),
         ]);
 
+        // The login page should redirect back to the page that redirected to the login page.
         $this->assertResponseRedirects('http://admin.webshop.test/');
     }
 
