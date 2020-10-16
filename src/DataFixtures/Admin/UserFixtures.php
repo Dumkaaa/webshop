@@ -27,9 +27,6 @@ class UserFixtures extends Fixture
         $admin->setIsEnabled(true);
         $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'P4$$w0rd'));
 
-        $admin->setCreatedAt(new \DateTime());
-        $admin->setLastUpdatedAt(new \DateTime());
-
         $manager->persist($admin);
 
         $manager->flush();

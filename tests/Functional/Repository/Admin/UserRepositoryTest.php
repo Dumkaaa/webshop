@@ -3,9 +3,9 @@
 namespace App\Tests\Functional\Repository\Admin;
 
 use App\Entity\Admin\User;
-use App\Tests\Functional\Repository\DoctrineRepositoryTest;
+use App\Tests\Functional\EntityManagerTest;
 
-class UserRepositoryTest extends DoctrineRepositoryTest
+class UserRepositoryTest extends EntityManagerTest
 {
     public function testFixtures(): void
     {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Functional\Repository;
+namespace App\Tests\Functional;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-abstract class DoctrineRepositoryTest extends KernelTestCase
+abstract class EntityManagerTest extends KernelTestCase
 {
     protected EntityManagerInterface $entityManager;
 

@@ -10,8 +10,8 @@ class TimestampableEntityTest extends TestCase
 {
     public function testSetters(): void
     {
+        // $entity can be any class that implements TimestampableInterface.
         $entity = new User();
-
         $this->assertInstanceOf(TimestampableInterface::class, $entity);
 
         $entity->setCreatedAt(new \DateTimeImmutable('11-11-2011 midnight'));
