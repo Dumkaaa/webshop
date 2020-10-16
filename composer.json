@@ -99,7 +99,10 @@
             "@auto-scripts"
         ],
         "parallellint": "vendor/bin/parallel-lint src tests",
-        "phpstan": "vendor/bin/phpstan analyse src tests --level 7",
+        "phpstan": [
+            "vendor/bin/simple-phpunit install",
+            "vendor/bin/phpstan analyse src tests --level 7"
+        ],
         "dumpcheck": "vendor/bin/var-dump-check --symfony src tests",
         "checkcs": "vendor/bin/php-cs-fixer fix --dry-run --diff",
         "securitycheck": "security-checker security:check",
