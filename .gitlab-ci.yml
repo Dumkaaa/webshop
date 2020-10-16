@@ -14,14 +14,7 @@ cache:
         - ./vendor/
 
 before_script:
-    - sudo chmod +x ./bin/console
-    - sudo chmod +x ./bin/phpunit
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress
-    - bin/console doctrine:database:drop --force --env=test
-    - bin/console doctrine:database:create --env=test
-    - bin/console doctrine:schema:create --env=test
-    - bin/console doctrine:fixtures:load -n --env=test
-    - bin/phpunit
 
 stages:
     - lint
@@ -34,5 +27,14 @@ lint:
 
 test:
     stage: test
+    before_script:
+        - sudo chmod +x ./bin/console
+        - sudo chmod +x ./bin/phpunit
+        - composer install --prefer-dist --no-ansi --no-interaction --no-progress
+        - bin/console doctrine:database:drop --force --env=test
+        - bin/console doctrine:database:create --env=test
+        - bin/console doctrine:schema:create --env=test
+        - bin/console doctrine:fixtures:load -n --env=test
+        - bin/phpunit
     script:
         - bin/phpunit --coverage-text --colors=never tests

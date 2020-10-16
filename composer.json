@@ -42,9 +42,9 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "jakub-onderka/php-console-highlighter": "^0.4.0",
-        "jakub-onderka/php-parallel-lint": "^1.0",
-        "jakub-onderka/php-var-dump-check": "^0.3.0",
+        "php-parallel-lint/php-console-highlighter": "^0.4.0",
+        "php-parallel-lint/php-parallel-lint": "^1.0",
+        "php-parallel-lint/php-var-dump-check": "^0.3.0",
         "jangregor/phpstan-prophecy": "^0.8.0",
         "phpspec/prophecy": "^1.12",
         "phpstan/phpstan": "^0.12.49",
@@ -100,7 +100,7 @@
         ],
         "parallellint": "vendor/bin/parallel-lint src tests",
         "phpstan": "vendor/bin/phpstan analyse src tests --level 7",
-        "dumpcheck": "vendor/bin/var-dump-check --symfony --exclude vendor --exclude node_modules --exclude var .",
+        "dumpcheck": "vendor/bin/var-dump-check --symfony src tests",
         "checkcs": "vendor/bin/php-cs-fixer fix --dry-run --diff",
         "securitycheck": "security-checker security:check",
         "symfonylint": [
