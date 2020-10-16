@@ -1,4 +1,6 @@
 parameters:
+    app.admin_host: '%env(APP_ADMIN_HOST)%'
+    app.webshop_host: '%env(APP_WEBSHOP_HOST)%'
 
 services:
     _defaults:
@@ -12,8 +14,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Controller\:
-        resource: '../src/Controller/'
+    App\Admin\Controller\:
+        resource: '../src/Admin/Controller/'
         tags: ['controller.service_arguments']
 
     App\Timestampable\TimestampableSubscriber:

@@ -27,6 +27,8 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * TODO: Make the emailAddress unique
      */
     private string $emailAddress;
 
@@ -54,6 +56,8 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * TODO: Prevent disabled users from logging in.
      */
     private bool $isEnabled = false;
 
