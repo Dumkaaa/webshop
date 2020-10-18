@@ -107,6 +107,11 @@ class User implements UserInterface, TimestampableInterface
         return $this;
     }
 
+    public function getFullName(): string
+    {
+        return $this->firstName.' '.$this->lastName;
+    }
+
     public function getPassword(): string
     {
         return $this->password;

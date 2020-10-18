@@ -1,0 +1,22 @@
+menu:
+    logout: Logout
+    dashboard: Dashboard
+
+user:
+    role:
+        ROLE_ADMIN: Administrator
+        ROLE_USER: User
+
+dashboard:
+    title: Dashboard
+
+login:
+    title: Login to your account
+    email_address:
+        label: Email address
+        placeholder: Enter email
+    password:
+        label: Password
+        placeholder: Enter password
+    remember_me: Remember me on this device
+    sign_in: Sign in

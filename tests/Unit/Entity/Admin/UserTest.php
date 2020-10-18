@@ -38,6 +38,8 @@ class UserTest extends TestCase
         $user->setLastName('Last Name');
         $this->assertSame('Last Name', $user->getLastName());
 
+        $this->assertSame('First Name Last Name', $user->getFullName());
+
         $user->setPassword('P4$$w0rd');
         $this->assertSame('P4$$w0rd', $user->getPassword());
 

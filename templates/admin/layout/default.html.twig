@@ -1,0 +1,21 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page %}
+    {% block navbar %}
+        {% include 'admin/partials/navbar.html.twig' %}
+    {% endblock navbar %}
+    <div class="content">
+        <div class="container-xl">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        {% if block('page_subtitle') is defined %}<div class="page-pretitle">{{ block('page_subtitle') }}</div>{% endif %}
+                        {% if block('page_title') is defined %}<h2 class="page-title">{{ block('page_title') }}</h2>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+{% endblock page %}

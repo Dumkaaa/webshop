@@ -1,7 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout/default.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block page_title %}{{ 'dashboard.title'|trans }}{% endblock %}
 
-{% block body %}
-    Dashboard
-{% endblock %}
+{% block content %}
+    {{ 'dashboard.title'|trans }}
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block page %}
+    <div class="flex-fill d-flex flex-column justify-content-center">
+        <div class="container-tight py-6">
+            <div class="text-center mb-4">
+                <img src="{{ asset('img/logo.svg') }}" height="40" alt="" style="fill:#fff;">
+            </div>
+            {% block body %}
+            {% endblock body %}
+        </div>
+    </div>
+{% endblock page %}

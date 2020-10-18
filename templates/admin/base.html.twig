@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>{% block browser_title %}{% if block('page_title') is defined %}{{ block('page_title') }}{% if block('page_subtitle') is defined and block('page_subtitle') is not empty %} - {{ block('page_subtitle') }}{% endif %}{% endif %}{% endblock browser_title %} - Webshop Admin</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+        <meta name="msapplication-TileColor" content="#206bc4"/>
+        <meta name="theme-color" content="#206bc4"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <meta name="HandheldFriendly" content="True"/>
+        <meta name="MobileOptimized" content="320"/>
+        <meta name="robots" content="noindex,nofollow,noarchive"/>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('admin') }}
+        {% endblock %}
+    </head>
+    <body class="{% block body_class %}antialiased{% endblock body_class %}">
+        <div class="page">
+            {% block page %}
+            {% endblock page %}
+        </div>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('admin') }}
+        {% endblock %}
+    </body>
+</html>
