@@ -12,6 +12,7 @@ variables:
 cache:
     paths:
         - ./vendor/
+        - ./node_modules/
 
 before_script:
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress
@@ -31,7 +32,8 @@ test:
         - sudo chmod +x ./bin/console
         - sudo chmod +x ./bin/phpunit
         - composer install --prefer-dist --no-ansi --no-interaction --no-progress
-        - bin/console cache:clear --env=test
+        - yarn install
+        - yarn build
         - bin/console doctrine:database:drop --force --env=test
         - bin/console doctrine:database:create --env=test
         - bin/console doctrine:schema:create --env=test
