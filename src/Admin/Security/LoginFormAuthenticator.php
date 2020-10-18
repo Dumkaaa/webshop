@@ -80,7 +80,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         $user = $this->userRepository->findOneBy(['emailAddress' => $credentials['emailAddress']]);
 
         if (!$user) {
-            throw new CustomUserMessageAuthenticationException('Email Address could not be found.');
+            throw new CustomUserMessageAuthenticationException('login.error.email_address');
         }
 
         return $user;

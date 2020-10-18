@@ -67,7 +67,7 @@ class SecurityControllerTest extends WebTestCase
         ], [], ['HTTP_HOST' => 'admin.webshop.test']);
 
         $client->followRedirect();
-        $this->assertSelectorTextContains('html form div.alert-danger', 'Email Address could not be found.');
+        $this->assertSelectorTextContains('html form div.alert-danger', 'Email address could not be found.');
     }
 
     public function testInvalidPassword(): void
