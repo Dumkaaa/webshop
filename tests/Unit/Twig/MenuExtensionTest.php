@@ -25,7 +25,9 @@ class MenuExtensionTest extends TestCase
         $function = $functions[0];
 
         $this->assertSame('render_menu', $function->getName());
-        $this->assertSame([$environment, 'renderMenu'], $function->getCallable());
+        $callable = $function->getCallable();
+        $this->assertIsArray($callable);
+        $this->assertSame('renderMenu', $callable[1]);
         $this->assertSame(['html'], $function->getSafe(new Node()));
     }
 
