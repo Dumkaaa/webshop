@@ -18,3 +18,18 @@ APP_SECRET | Secret string
 DATABASE_URL | Database details
 APP_ADMIN_HOST | The domain of the admin environment (e.g. admin.webshop.com)
 APP_WEBSHOP_HOST | The domain of the webshop environment (e.g. webshop.com)
+
+## Twig custom functions and filters
+### Functions
+Function | Arguments | Description
+--- | --- | ---
+render_menu | - type (string/MenuTypeInterface, required) <br>- template (string, required) | Renders a menu type.
+
+### Filters
+Filter | Arguments | Description
+--- | --- | ---
+
+## Features
+### Menu builder
+Menu's are dynamically generating using a custom menu system. You can create menu types (e.g. [AdminType](https://gitlab.com/Stanjan/webshop/-/blob/master/src/Admin/Menu/AdminType.php)) that can build the menu using the [MenuBuilder](https://gitlab.com/Stanjan/webshop/-/blob/master/src/Menu/MenuBuilder.php).
+The menu can be created with the [MenuFactory](https://gitlab.com/Stanjan/webshop/-/blob/master/src/Menu/MenuFactory.php) or in Twig by using the `render_menu` function.
