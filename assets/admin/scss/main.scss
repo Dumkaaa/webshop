@@ -1,1 +1,9 @@
 @import '~tabler/scss/tabler';
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+.nav-link-icon > i {
+    display: block;
+}
