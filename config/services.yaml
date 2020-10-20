@@ -7,16 +7,21 @@ services:
         autowire: true
         autoconfigure: true
 
+    _instanceof:
+        App\Menu\MenuTypeInterface:
+            tags: ['app.menu_type']
+
     App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+        resource: '../src/{Admin,DataFixtures,Repository,Twig}'
 
     App\Admin\Controller\:
         resource: '../src/Admin/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Menu\MenuFactory:
+        public: true
+        arguments:
+            $types: !tagged { tag: 'app.menu_type', index_by: true, default_index_method: 'getKey' }
 
     App\Timestampable\TimestampableSubscriber:
         tags:

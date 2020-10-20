@@ -1,0 +1,19 @@
+<div class="navbar-nav flex-row order-md-last">
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link d-flex lh-1 p-0" data-toggle="dropdown">
+            <span class="avatar">{{ app.user.firstName|first }}{{ app.user.lastName|first }}</span>
+            <div class="d-none d-xl-block pl-2">
+                <div>{{ app.user.fullName }}</div>
+                <div class="mt-1 small text-muted">{% if is_granted('ROLE_ADMIN') %}{{ 'user.role.ROLE_ADMIN'|trans }}{% else %}{{ 'user.role.ROLE_USER'|trans }}{% endif %}</div>
+            </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            {% for item in menu.children %}
+                <a class="dropdown-item{% if item.isActive %} active{% endif %}" href="{{ item.uri }}">
+                    {% if item.icon %}<span class="nav-link-icon d-md-none d-lg-inline-block mr-1"><i class="{{ item.icon }}"></i></span>{% endif %}
+                    <span class="label">{% if item.translationDomain %}{{ item.label|trans({}, item.translationDomain) }}{% else %}{{ item.label }}{% endif %}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>

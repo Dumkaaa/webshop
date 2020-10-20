@@ -1,0 +1,22 @@
+<ul class="navbar-nav">
+    {% for item in menu.children %}
+        <li class="nav-item{% if item.isActive %} active{% endif %}{% if item.children|length > 0 %} dropdown{% endif %}">
+            <a class="nav-link{% if item.children|length > 0 %} dropdown-toggle{% endif %}" href="{% if item.children|length > 0 %}#{{ item.identifier }}{% else %}{{ item.uri }}{% endif %}"{% if item.target %} target="{{ item.target }}"{% endif %}{% if item.children|length > 0 %} data-toggle="dropdown" role="button" aria-expanded="false"{% endif %}>
+                {% if item.icon %}<span class="nav-link-icon d-md-none d-lg-inline-block mr-1"><i class="{{ item.icon }}"></i></span>{% endif %}
+                <span class="nav-link-title">{% if item.translationDomain %}{{ item.label|trans({}, item.translationDomain) }}{% else %}{{ item.label }}{% endif %}</span>
+            </a>
+            {% if item.children|length > 0 %}
+                <ul class="dropdown-menu">
+                    {% for subItem in item.children %}
+                        <li>
+                            <a class="dropdown-item{% if subItem.isActive %} active{% endif %}" href="{{ subItem.uri }}">
+                                {% if subItem.icon %}<span class="nav-link-icon d-md-none d-lg-inline-block mr-1"><i class="{{ subItem.icon }}"></i></span>{% endif %}
+                                <span class="label">{% if subItem.translationDomain %}{{ subItem.label|trans({}, subItem.translationDomain) }}{% else %}{{ subItem.label }}{% endif %}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
