@@ -6,11 +6,13 @@ use App\Repository\Admin\UserRepository;
 use App\Timestampable\TimestampableEntity;
 use App\Timestampable\TimestampableInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("emailAddress")
  */
 class User implements UserInterface, TimestampableInterface
 {
@@ -27,19 +29,24 @@ class User implements UserInterface, TimestampableInterface
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * TODO: Make the emailAddress unique
+     * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email
+     * @Assert\Length(max=50)
      */
     private string $emailAddress;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private string $lastName;
 
@@ -50,6 +57,7 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\Choice({User::ROLE_ADMIN})
      *
      * @var array<string>
      */
