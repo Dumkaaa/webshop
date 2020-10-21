@@ -21,6 +21,19 @@
         {% endblock %}
     </head>
     <body class="{% block body_class %}antialiased{% endblock body_class %}">
+        {% set _flashes = app.flashes %}
+        {% if _flashes|length > 0 %}
+            <div id="flash-container">
+                {% for type, flashes in _flashes %}
+                    {% for flash in flashes %}
+                        <div class="alert alert-{{ type }} alert-dismissible" role="alert">
+                            {{- flash -}}
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
         <div class="page">
             {% block page %}
             {% endblock page %}

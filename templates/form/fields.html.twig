@@ -1,0 +1,27 @@
+{% use 'bootstrap_4_layout.html.twig' %}
+
+{%- block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' form-label')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_label -%}
+
+{% block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <span class="{% if form is not rootform %}invalid-feedback{% else %}alert alert-danger{% endif %} d-block">
+            {%- for error in errors -%}
+                <span class="d-block">
+                    <span class="form-error-message">{{ error.message }}</span>
+                </span>
+            {%- endfor -%}
+        </span>
+    {%- endif %}
+{%- endblock form_errors %}
+
+{%- block email_widget -%}
+    <div class="input-group">
+	    <span class="input-group-text">
+	    	<i class="fas fa-at"></i>
+	    </span>
+        {{- block('form_widget_simple') -}}
+    </div>
+{%- endblock email_widget -%}

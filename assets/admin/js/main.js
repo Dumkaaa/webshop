@@ -12,6 +12,14 @@ import '../scss/main.scss';
         return new bootstrap.Tooltip(tooltipTriggerEl, options);
     });
 
+    let toastList = [].slice.call(document.querySelectorAll('#flash-container .alert'));
+    toastList.map(function (toastEl) {
+        let options = {
+            delay: 10000,
+        };
+        return (new bootstrap.Toast(toastEl, options)).show();
+    });
+
     const userLogsChart = document.getElementById('chart-user-logs');
     if (userLogsChart) {
         new ApexCharts(userLogsChart, {

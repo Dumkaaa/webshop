@@ -7,8 +7,15 @@ profile:
     title: My profile
     last_active_at: Last seen
     edit: Edit profile
+    saved: Profile saved
 
 user:
+    first_name: First name
+    last_name: Last name
+    full_name: Full name
+    email_address: Email address
+    new_password: New password
+    repeat_new_password: Repeat new password
     role:
         ROLE_ADMIN: Administrator
         ROLE_USER: User
@@ -22,6 +29,9 @@ user:
 
 dashboard:
     title: Dashboard
+
+form:
+    invalid: Check the form for errors
 
 login:
     title: Login to your account

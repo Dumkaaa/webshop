@@ -3,23 +3,28 @@
 namespace App\Tests\Functional\Repository\Admin;
 
 use App\Entity\Admin\User;
-use App\Tests\Functional\EntityManagerTest;
+use App\Repository\Admin\UserRepository;
+use App\Tests\Functional\DoctrineFixturesTest;
 
-class UserRepositoryTest extends EntityManagerTest
+class UserRepositoryTest extends DoctrineFixturesTest
 {
+    protected function getFixtureGroups(): array
+    {
+        return [
+            'UserFixtures',
+        ];
+    }
+
     public function testFixtures(): void
     {
-        $users = $this->entityManager
-            ->getRepository(User::class)
-            ->findAll()
-        ;
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+
+        $users = $userRepository->findAll();
 
         $this->assertCount(1, $users);
 
-        $admin = $this->entityManager
-            ->getRepository(User::class)
-            ->findOneBy(['emailAddress' => 'admin@example.com'])
-        ;
+        $admin = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
 
         $this->assertNotNull($admin);
         $this->assertCount(2, $admin->getRoles());

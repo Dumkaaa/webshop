@@ -7,3 +7,25 @@
 .nav-link-icon > i {
     display: block;
 }
+
+.form-group:not(:last-of-type) {
+    margin-bottom: 1em;
+}
+
+#flash-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 350px;
+    max-width: calc(100% - 20px);
+    z-index: 100;
+    .alert {
+        opacity: 0;
+        &.show {
+            opacity: 1;
+        }
+        &.hide {
+            display: none;
+        }
+    }
+}

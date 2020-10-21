@@ -7,6 +7,7 @@ use App\Timestampable\TimestampableEntity;
 use App\Timestampable\TimestampableInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -73,6 +74,11 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * Non-mapped password used for password generation.
+     *
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 128
+     * )
      */
     private ?string $plainPassword = null;
 

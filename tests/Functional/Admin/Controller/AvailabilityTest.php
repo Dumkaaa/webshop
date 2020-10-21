@@ -3,18 +3,23 @@
 namespace App\Tests\Functional\Admin\Controller;
 
 use App\Repository\Admin\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functional\DoctrineFixturesTest;
 
-class AvailabilityTest extends WebTestCase
+class AvailabilityTest extends DoctrineFixturesTest
 {
+    protected function getFixtureGroups(): array
+    {
+        return [
+            'UserFixtures',
+        ];
+    }
+
     /**
      * @dataProvider urlProvider
      */
     public function testUnauthorized(string $url): void
     {
-        $client = static::createClient();
-
-        $client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
 
         $this->assertResponseStatusCodeSame(302);
     }
@@ -24,14 +29,12 @@ class AvailabilityTest extends WebTestCase
      */
     public function testAuthorized(string $url): void
     {
-        $client = static::createClient();
-
         /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
         $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
 
-        $client->loginUser($user, 'admin');
-        $client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+        $this->client->loginUser($user, 'admin');
+        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
 
         $this->assertResponseStatusCodeSame(200);
     }

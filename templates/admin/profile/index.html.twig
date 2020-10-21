@@ -8,15 +8,15 @@
             <div class="card">
                 <div class="card-body p-4 py-5 text-center">
                     <span class="avatar avatar-xl mb-4">
-                        {{- app.user.firstName|first }}{{ app.user.lastName|first -}}
+                        {{- user.firstName|first }}{{ user.lastName|first -}}
                     </span>
-                    <h3 class="mb-0">{{ app.user.fullName }}</h3>
-                    <p><a href="mailto:{{ app.user.emailAddress }}">{{ app.user.emailAddress }}</a></p>
-                    {% if app.user.lastActiveAt %}
-                        <p class="text-muted small mb-1">{{ 'profile.last_active_at'|trans }}: {{ app.user.lastActiveAt|format_datetime('medium', 'short') }}</p>
+                    <h3 class="mb-0">{{ user.fullName }}</h3>
+                    <p><a href="mailto:{{ user.emailAddress }}">{{ user.emailAddress }}</a></p>
+                    {% if user.lastActiveAt %}
+                        <p class="text-muted small mb-1">{{ 'profile.last_active_at'|trans }}: {{ user.lastActiveAt|format_datetime('medium', 'short') }}</p>
                     {% endif %}
                     <div class="small text-muted">
-                        {% if app.user.isActive %}
+                        {% if user.isActive %}
                             <span class="text-success">●</span> {{ 'user.online'|trans }}
                         {% else %}
                             <span class="text-danger">●</span> {{ 'user.offline'|trans }}
@@ -28,21 +28,22 @@
                 <div class="card-header">
                     <h3 class="card-title">{{ 'profile.edit'|trans }}</h3>
                 </div>
-                <form>
+                {{ form_start(form) }}
                     <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label">Email-Address</label>
-                            <input class="form-control" placeholder="your-email@domain.com">
-                        </div>
-                        <div class="mb-2">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-control" value="password">
-                        </div>
+                        {{ form_widget(form) }}
+{#                        <div class="mb-2">#}
+{#                            <label class="form-label">Email-Address</label>#}
+{#                            <input class="form-control" placeholder="your-email@domain.com">#}
+{#                        </div>#}
+{#                        <div class="mb-2">#}
+{#                            <label class="form-label">Password</label>#}
+{#                            <input type="password" class="form-control" value="password">#}
+{#                        </div>#}
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-primary btn-block">Save</button>
                     </div>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
         <div class="col-md-8 col-xl-9">

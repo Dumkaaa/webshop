@@ -3,13 +3,39 @@
 namespace App\Tests\Functional\Timestampable;
 
 use App\Entity\Admin\User;
-use App\Tests\Functional\EntityManagerTest;
 use App\Timestampable\TimestampableSubscriber;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class TimestampableSubscriberTest extends EntityManagerTest
+class TimestampableSubscriberTest extends KernelTestCase
 {
+    protected EntityManagerInterface $entityManager;
+
+    protected function setUp(): void
+    {
+        $kernel = self::bootKernel();
+
+        /** @var ManagerRegistry $doctrine */
+        $doctrine = $kernel->getContainer()->get('doctrine');
+
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $doctrine->getManager();
+
+        $this->entityManager = $entityManager;
+
+        parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+    }
+
     public function testGetSubscribedEvents(): void
     {
         $subscriber = new TimestampableSubscriber();
