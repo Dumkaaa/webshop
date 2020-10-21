@@ -67,6 +67,11 @@ class User implements UserInterface, TimestampableInterface
     protected ?\DateTimeInterface $lastLoginAt = null;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected ?\DateTimeInterface $lastActiveAt = null;
+
+    /**
      * Non-mapped password used for password generation.
      */
     private ?string $plainPassword = null;
@@ -171,6 +176,23 @@ class User implements UserInterface, TimestampableInterface
         $this->lastLoginAt = $lastLoginAt;
 
         return $this;
+    }
+
+    public function getLastActiveAt(): ?\DateTimeInterface
+    {
+        return $this->lastActiveAt;
+    }
+
+    public function setLastActiveAt(?\DateTimeInterface $lastActiveAt): self
+    {
+        $this->lastActiveAt = $lastActiveAt;
+
+        return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->lastActiveAt && $this->lastActiveAt > new \DateTimeImmutable('2 minutes ago');
     }
 
     public function getPlainPassword(): ?string

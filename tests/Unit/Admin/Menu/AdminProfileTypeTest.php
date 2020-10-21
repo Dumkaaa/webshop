@@ -16,6 +16,17 @@ class AdminProfileTypeTest extends MenuTypeTest
     {
         $this->assertBuild(new AdminProfileType(), [
             [
+                'identifier' => 'profile',
+                'label' => 'menu.profile',
+                'route' => 'admin_profile',
+                'route_params' => [],
+                'uri' => '/profile',
+                'target' => null,
+                'icon' => 'fas fa-user',
+                'translation_domain' => 'messages',
+                'children' => [],
+            ],
+            [
                 'identifier' => 'logout',
                 'label' => 'menu.logout',
                 'route' => 'admin_logout',

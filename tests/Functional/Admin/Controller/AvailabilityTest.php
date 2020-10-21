@@ -44,6 +44,8 @@ class AvailabilityTest extends WebTestCase
         return [
             // Dashboard
             ['/'],
+            // Profile
+            ['/profile'],
         ];
     }
 }

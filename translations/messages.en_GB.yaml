@@ -1,11 +1,24 @@
 menu:
+    profile: Profile
     logout: Logout
     dashboard: Dashboard
+
+profile:
+    title: My profile
+    last_active_at: Last seen
+    edit: Edit profile
 
 user:
     role:
         ROLE_ADMIN: Administrator
         ROLE_USER: User
+    online: Online
+    offline: Offline
+    log:
+        title: Recent activity
+        subject: Subject
+        action: Action
+        date: Date
 
 dashboard:
     title: Dashboard
