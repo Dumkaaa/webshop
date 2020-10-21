@@ -18,7 +18,7 @@ class AdminProfileTypeTest extends MenuTypeTest
             [
                 'identifier' => 'profile',
                 'label' => 'menu.profile',
-                'route' => 'admin_profile',
+                'route' => 'admin_profile_edit',
                 'route_params' => [],
                 'uri' => '/profile',
                 'target' => null,

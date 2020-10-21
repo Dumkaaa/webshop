@@ -12,8 +12,8 @@ class AdminProfileType extends AbstractMenuType
         $builder
             ->add('profile', [
                 'label' => 'menu.profile',
-                'route' => 'admin_profile',
-                'active_pattern' => '/admin_profile/',
+                'route' => 'admin_profile_edit',
+                'active_pattern' => '/admin_profile_edit/',
                 'icon' => 'fas fa-user',
             ])
             ->add('logout', [

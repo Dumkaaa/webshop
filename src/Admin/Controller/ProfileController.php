@@ -4,7 +4,6 @@ namespace App\Admin\Controller;
 
 use App\Admin\Form\ProfileType;
 use App\Entity\Admin\User;
-use App\Repository\Admin\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,52 +26,45 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/profile/{emailAddress}", name="admin_profile", defaults={"emailAddress"=null})
+     * @Route("/profile", name="admin_profile_edit")
      */
-    public function index(Request $request, ?string $emailAddress = null): Response
+    public function edit(Request $request): Response
     {
-        if ($emailAddress) {
-            /** @var UserRepository $userRepository */
-            $userRepository = $this->entityManager->getRepository(User::class);
-            $user = $userRepository->findOneBy(['emailAddress' => $emailAddress]);
-            if (!$user) {
-                throw $this->createNotFoundException(sprintf('No user found for email address "%s".', $emailAddress));
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $user->getPlainPassword();
+            if ($newPassword) {
+                // Encode the new password.
+                $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
             }
-        } else {
-            // Fallback to the user's own profile if no email address is given.
-            /** @var User $user */
-            $user = $this->getUser();
-        }
 
-        if ($user === $this->getUser()) {
-            // This is the logged in user, allow editing.
-            $form = $this->createForm(ProfileType::class, $user);
-            $form->handleRequest($request);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $newPassword = $user->getPlainPassword();
-                if ($newPassword) {
-                    // Encode the new password.
-                    $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
-                }
-
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-
-                $this->addFlash('success', $this->translator->trans('profile.saved'));
-                $this->redirectToRoute('admin_profile', [
-                    'emailAddress' => $emailAddress,
-                ]);
-            } elseif ($form->isSubmitted()) {
-                $this->addFlash('danger', $this->translator->trans('form.invalid'));
-            }
-        } else {
-            $form = null;
+            $this->addFlash('success', $this->translator->trans('profile.saved'));
+            $this->redirectToRoute('admin_profile_edit');
+        } elseif ($form->isSubmitted()) {
+            $this->addFlash('danger', $this->translator->trans('form.invalid'));
         }
 
         return $this->render('admin/profile/index.html.twig', [
             'user' => $user,
-            'form' => $form ? $form->createView() : null,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/profile/{emailAddress}", name="admin_profile_view")
+     */
+    public function view(User $user): Response
+    {
+        return $this->render('admin/profile/index.html.twig', [
+            'user' => $user,
         ]);
     }
 }

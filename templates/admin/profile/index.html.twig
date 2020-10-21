@@ -1,6 +1,6 @@
 {% extends 'admin/layout/default.html.twig' %}
 
-{% block page_title %}{% if form %}{{ 'profile.title'|trans }}{% else %}{{ 'profile.user_profile'|trans({'%name%': user.fullName}) }}{% endif %}{% endblock %}
+{% block page_title %}{% if form is defined %}{{ 'profile.title'|trans }}{% else %}{{ 'profile.user_profile'|trans({'%name%': user.fullName}) }}{% endif %}{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            {% if form %}
+            {% if form is defined %}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{{ 'profile.edit'|trans }}</h3>

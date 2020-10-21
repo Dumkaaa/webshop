@@ -41,9 +41,6 @@ class ProfileControllerTest extends DoctrineFixturesTest
 
         $response = $this->client->getResponse();
         $this->assertSame(404, $response->getStatusCode());
-        $content = $response->getContent();
-        $this->assertIsString($content);
-        $this->assertStringContainsString('No user found for email address &quot;foo@bar.com&quot;.', $content);
     }
 
     public function testUpdateProfile(): void
