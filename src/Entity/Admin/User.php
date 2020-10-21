@@ -62,6 +62,11 @@ class User implements UserInterface, TimestampableInterface
     private bool $isEnabled = false;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected ?\DateTimeInterface $lastLoginAt = null;
+
+    /**
      * Non-mapped password used for password generation.
      */
     private ?string $plainPassword = null;
@@ -152,6 +157,18 @@ class User implements UserInterface, TimestampableInterface
     public function setIsEnabled(bool $isEnabled): self
     {
         $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function getLastLoginAt(): ?\DateTimeInterface
+    {
+        return $this->lastLoginAt;
+    }
+
+    public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
+    {
+        $this->lastLoginAt = $lastLoginAt;
 
         return $this;
     }

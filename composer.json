@@ -134,11 +134,14 @@
             "bin/console doctrine:fixtures:load -n --env=test",
             "bin/phpunit --coverage-text --colors=never tests"
         ],
-        "resetdb": [
-            "bin/console doctrine:database:drop --force",
+        "createdb": [
             "bin/console doctrine:database:create",
             "bin/console doctrine:schema:create",
             "bin/console doctrine:fixtures:load -n"
+        ],
+        "resetdb": [
+            "bin/console doctrine:database:drop --force",
+            "@createdb"
         ]
     },
     "conflict": {

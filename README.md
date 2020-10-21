@@ -1,7 +1,7 @@
 ## Installation
 1. Create `.env.local` (Check out the [environment variables]('#dotenv'))
 2. Install dependencies by running the command `composer install`
-3. Create the database and load the fixtures by running the command `composer resetdb`
+3. Create the database and load the fixtures by running the command `composer createdb`
 4. Your local installation is now ready to use!
 
 ## Development
@@ -9,6 +9,7 @@
     * If you get a cs-fixer error, fix it by running the command `composer fix`.
 * PHPUnit by running the command `composer phpunit`
     * NOTE: Create a `.env.test.local` with a custom `DATABASE_URL` environment variable for a testing database.
+* Reset the database by running `composer resetdb`
 
 ## Environment variables
 Variable | Description

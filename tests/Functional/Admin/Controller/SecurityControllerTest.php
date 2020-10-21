@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Admin\Controller;
 
+use App\Repository\Admin\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
@@ -22,11 +23,21 @@ class SecurityControllerTest extends WebTestCase
         /** @var CsrfTokenManagerInterface $csrfTokenManager */
         $csrfTokenManager = static::$container->get(CsrfTokenManagerInterface::class);
 
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+
+        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
+        $this->assertNotNull($user);
+        $this->assertNull($user->getLastLoginAt());
+
         $client->request('POST', '/login', [
             'emailAddress' => 'admin@example.com',
             'password' => 'P4$$w0rd',
             '_csrf_token' => $csrfTokenManager->getToken('authenticate'),
         ], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $this->assertNotNull($user->getLastLoginAt());
+        $this->assertEquals((new \DateTimeImmutable())->format('d-m-Y'), $user->getLastLoginAt()->format('d-m-Y'));
 
         $this->assertResponseRedirects('/');
     }

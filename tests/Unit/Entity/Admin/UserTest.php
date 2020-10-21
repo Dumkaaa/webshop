@@ -17,6 +17,7 @@ class UserTest extends TestCase
         $this->assertCount(1, $user->getRoles());
         $this->assertSame(User::ROLE_USER, $user->getRoles()[0]);
         $this->assertFalse($user->isEnabled());
+        $this->assertNull($user->getLastLoginAt());
         $this->assertNull($user->getPlainPassword());
         $this->assertNull($user->getSalt());
 
@@ -50,6 +51,9 @@ class UserTest extends TestCase
 
         $user->setIsEnabled(true);
         $this->assertTrue($user->isEnabled());
+
+        $user->setLastLoginAt(new \DateTimeImmutable('11-11-2011 midnight'));
+        $this->assertEquals(new \DateTimeImmutable('11-11-2011 midnight'), $user->getLastLoginAt());
 
         $user->setPlainPassword('Pl41nP4$$w0rd');
         $this->assertSame('Pl41nP4$$w0rd', $user->getPlainPassword());

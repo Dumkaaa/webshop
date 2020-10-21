@@ -4,6 +4,7 @@ namespace App\Admin\Security;
 
 use App\Entity\Admin\User;
 use App\Repository\Admin\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -26,13 +27,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public const LOGIN_ROUTE = 'admin_login';
 
+    private EntityManagerInterface $entityManager;
     private UserRepository $userRepository;
     private UrlGeneratorInterface $urlGenerator;
     private CsrfTokenManagerInterface $csrfTokenManager;
     private UserPasswordEncoderInterface $passwordEncoder;
 
-    public function __construct(UserRepository $userRepository, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
@@ -107,6 +110,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $user = $token->getUser();
+        if ($user instanceof User) {
+            // Log the last login date.
+            $user->setLastLoginAt(new \DateTimeImmutable());
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
