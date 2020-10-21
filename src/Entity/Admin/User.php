@@ -58,7 +58,7 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Assert\Choice({User::ROLE_ADMIN})
+     * @Assert\Choice({User::ROLE_ADMIN}, multiple=true)
      *
      * @var array<string>
      */

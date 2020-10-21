@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2.1",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "knplabs/knp-paginator-bundle": "^5.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.1.*",
@@ -44,10 +45,11 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.16",
+        "fzaninotto/faker": "dev-patch_doctrine_common_namespace",
+        "jangregor/phpstan-prophecy": "^0.8.0",
         "php-parallel-lint/php-console-highlighter": "^0.4.0",
         "php-parallel-lint/php-parallel-lint": "^1.0",
         "php-parallel-lint/php-var-dump-check": "^0.3.0",
-        "jangregor/phpstan-prophecy": "^0.8.0",
         "phpspec/prophecy": "^1.12",
         "phpstan/phpstan": "^0.12.49",
         "phpstan/phpstan-doctrine": "^0.12.21",
@@ -63,6 +65,12 @@
         "symfony/var-dumper": "^5.1",
         "symfony/web-profiler-bundle": "^5.1"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/etienneleba/faker"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {

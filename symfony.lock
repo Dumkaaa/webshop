@@ -117,6 +117,9 @@
             ".php_cs.dist"
         ]
     },
+    "fzaninotto/faker": {
+        "version": "v1.9.1"
+    },
     "jakub-onderka/php-console-color": {
         "version": "v0.2"
     },
@@ -125,6 +128,12 @@
     },
     "jangregor/phpstan-prophecy": {
         "version": "0.8.0"
+    },
+    "knplabs/knp-components": {
+        "version": "v2.4.2"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.3.0"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"

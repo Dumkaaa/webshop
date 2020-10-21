@@ -22,7 +22,7 @@ class UserRepositoryTest extends DoctrineFixturesTest
 
         $users = $userRepository->findAll();
 
-        $this->assertCount(2, $users);
+        $this->assertCount(102, $users);
 
         $admin = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
         $this->assertNotNull($admin);
