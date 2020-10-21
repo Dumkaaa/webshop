@@ -15,6 +15,37 @@ class ProfileControllerTest extends DoctrineFixturesTest
         ];
     }
 
+    public function testOtherProfile(): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $this->client->request('GET', '/profile/user@example.com', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('Foo Bar&#039;s profile', $content);
+        $this->assertStringNotContainsString('Edit profile', $content);
+    }
+
+    public function testProfileNotFound(): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $this->client->request('GET', '/profile/foo@bar.com', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $response = $this->client->getResponse();
+        $this->assertSame(404, $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('No user found for email address &quot;foo@bar.com&quot;.', $content);
+    }
+
     public function testUpdateProfile(): void
     {
         /** @var UserRepository $userRepository */
@@ -38,6 +69,7 @@ class ProfileControllerTest extends DoctrineFixturesTest
 
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
+        $this->assertStringContainsString('Edit profile', $content);
         $this->assertStringContainsString('Profile saved', $content);
     }
 

@@ -5,6 +5,7 @@ menu:
 
 profile:
     title: My profile
+    user_profile: "%name%'s profile"
     last_active_at: Last seen
     edit: Edit profile
     saved: Profile saved

@@ -1,6 +1,6 @@
 {% extends 'admin/layout/default.html.twig' %}
 
-{% block page_title %}{{ 'profile.title'|trans }}{% endblock %}
+{% block page_title %}{% if form %}{{ 'profile.title'|trans }}{% else %}{{ 'profile.user_profile'|trans({'%name%': user.fullName}) }}{% endif %}{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -24,27 +24,21 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{{ 'profile.edit'|trans }}</h3>
+            {% if form %}
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ 'profile.edit'|trans }}</h3>
+                    </div>
+                    {{ form_start(form) }}
+                        <div class="card-body">
+                            {{ form_widget(form) }}
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-block">Save</button>
+                        </div>
+                    {{ form_end(form) }}
                 </div>
-                {{ form_start(form) }}
-                    <div class="card-body">
-                        {{ form_widget(form) }}
-{#                        <div class="mb-2">#}
-{#                            <label class="form-label">Email-Address</label>#}
-{#                            <input class="form-control" placeholder="your-email@domain.com">#}
-{#                        </div>#}
-{#                        <div class="mb-2">#}
-{#                            <label class="form-label">Password</label>#}
-{#                            <input type="password" class="form-control" value="password">#}
-{#                        </div>#}
-                    </div>
-                    <div class="card-footer">
-                        <button class="btn btn-primary btn-block">Save</button>
-                    </div>
-                {{ form_end(form) }}
-            </div>
+            {% endif %}
         </div>
         <div class="col-md-8 col-xl-9">
             <div class="card">
