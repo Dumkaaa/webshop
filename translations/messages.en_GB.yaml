@@ -10,7 +10,8 @@ profile:
     edit: Edit profile
     saved: Profile saved
 
-user:
+admin_user:
+    title: System users
     first_name: First name
     last_name: Last name
     full_name: Full name

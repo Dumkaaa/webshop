@@ -17,9 +17,9 @@
                     {% endif %}
                     <div class="small text-muted">
                         {% if user.isActive %}
-                            <span class="text-success">●</span> {{ 'user.online'|trans }}
+                            <span class="status-icon bg-success"></span> {{ 'admin_user.online'|trans }}
                         {% else %}
-                            <span class="text-danger">●</span> {{ 'user.offline'|trans }}
+                            <span class="status-icon bg-gray-dark-lt"></span> {{ 'admin_user.offline'|trans }}
                         {% endif %}
                     </div>
                 </div>
@@ -43,16 +43,16 @@
         <div class="col-md-8 col-xl-9">
             <div class="card">
                 <div class="card-body pb-0">
-                    <h3 class="card-title">{{ 'user.log.title'|trans }}</h3>
+                    <h3 class="card-title">{{ 'admin_user.log.title'|trans }}</h3>
                 </div>
                 <div id="chart-user-logs"></div>
                 <div class="table-responsive">
                     <table class="table card-table table-vcenter table-striped">
                         <thead>
                             <tr>
-                                <th>{{ 'user.log.subject'|trans }}</th>
-                                <th>{{ 'user.log.action'|trans }}</th>
-                                <th>{{ 'user.log.date'|trans }}</th>
+                                <th>{{ 'admin_user.log.subject'|trans }}</th>
+                                <th>{{ 'admin_user.log.action'|trans }}</th>
+                                <th>{{ 'admin_user.log.date'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>

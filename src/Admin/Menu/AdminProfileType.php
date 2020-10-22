@@ -14,12 +14,12 @@ class AdminProfileType extends AbstractMenuType
                 'label' => 'menu.profile',
                 'route' => 'admin_profile_edit',
                 'active_pattern' => '/admin_profile_edit/',
-                'icon' => 'fas fa-user',
+                'icon' => 'las la-user',
             ])
             ->add('logout', [
                 'label' => 'menu.logout',
                 'route' => 'admin_logout',
-                'icon' => 'fas fa-sign-out-alt',
+                'icon' => 'las la-sign-out-alt',
             ])
         ;
     }

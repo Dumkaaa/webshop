@@ -17,7 +17,7 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('fullName', TextType::class, [
-                'label' => 'user.full_name',
+                'label' => 'admin_user.full_name',
                 'required' => false,
                 'disabled' => true,
                 'attr' => [
@@ -25,7 +25,7 @@ class ProfileType extends AbstractType
                 ],
             ])
             ->add('emailAddress', EmailType::class, [
-                'label' => 'user.email_address',
+                'label' => 'admin_user.email_address',
                 'required' => false,
                 'disabled' => true,
                 'attr' => [
@@ -36,8 +36,8 @@ class ProfileType extends AbstractType
                 'type' => PasswordType::class,
                 'required' => false,
                 'invalid_message' => 'The password fields must match.',
-                'first_options' => ['label' => 'user.new_password'],
-                'second_options' => ['label' => 'user.repeat_new_password'],
+                'first_options' => ['label' => 'admin_user.new_password'],
+                'second_options' => ['label' => 'admin_user.repeat_new_password'],
             ])
         ;
     }

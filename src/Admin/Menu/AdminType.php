@@ -14,7 +14,7 @@ class AdminType extends AbstractMenuType
                 'label' => 'menu.dashboard',
                 'route' => 'admin_dashboard',
                 'active_pattern' => '/admin_dashboard/',
-                'icon' => 'fas fa-home',
+                'icon' => 'las la-home',
             ])
         ;
     }

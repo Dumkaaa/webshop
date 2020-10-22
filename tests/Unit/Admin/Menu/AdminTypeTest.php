@@ -22,7 +22,7 @@ class AdminTypeTest extends MenuTypeTest
                 'route_params' => [],
                 'uri' => '/',
                 'target' => null,
-                'icon' => 'fas fa-home',
+                'icon' => 'las la-home',
                 'translation_domain' => 'messages',
                 'children' => [],
             ],

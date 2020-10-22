@@ -15,9 +15,10 @@ class AvailabilityTest extends DoctrineFixturesTest
     }
 
     /**
-     * @dataProvider urlProvider
+     * @dataProvider adminUrlProvider
+     * @dataProvider userUrlProvider
      */
-    public function testUnauthorized(string $url): void
+    public function testUnauthorizedRedirectToLogin(string $url): void
     {
         $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
 
@@ -25,9 +26,10 @@ class AvailabilityTest extends DoctrineFixturesTest
     }
 
     /**
-     * @dataProvider urlProvider
+     * @dataProvider adminUrlProvider
+     * @dataProvider userUrlProvider
      */
-    public function testAuthorized(string $url): void
+    public function testAuthorizedAdmin(string $url): void
     {
         /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
@@ -40,15 +42,56 @@ class AvailabilityTest extends DoctrineFixturesTest
     }
 
     /**
+     * @dataProvider adminUrlProvider
+     */
+    public function testUnauthorizedUser(string $url): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'user@example.com']);
+
+        $this->client->loginUser($user, 'admin');
+        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    /**
+     * @dataProvider userUrlProvider
+     */
+    public function testAuthorizedUser(string $url): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'user@example.com']);
+
+        $this->client->loginUser($user, 'admin');
+        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+    /**
      * @return array<array<string>>
      */
-    public function urlProvider(): array
+    public function userUrlProvider(): array
     {
         return [
             // Dashboard
             ['/'],
             // Profile
             ['/profile'],
+        ];
+    }
+
+    /**
+     * @return array<array<string>>
+     */
+    public function adminUrlProvider(): array
+    {
+        return [
+            // Admin user
+            ['/admin-users'],
         ];
     }
 }

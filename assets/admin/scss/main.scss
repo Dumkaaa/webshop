@@ -1,8 +1,5 @@
 @import '~tabler/scss/tabler';
-
-@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "~@fortawesome/fontawesome-free/scss/solid.scss";
-@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import '~line-awesome/dist/line-awesome/scss/line-awesome';
 
 .nav-link-icon > i {
     display: block;
@@ -28,4 +25,17 @@
             display: none;
         }
     }
+}
+
+.status-icon {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    display: inline-block;
+    background: currentColor;
+    border-radius: 50%;
+    -webkit-transform: translateY(-1px);
+    transform: translateY(-1px);
+    margin-right: .375rem;
+    vertical-align: middle;
 }
