@@ -45,7 +45,7 @@ class UserFixtures extends Fixture
 
         $populator->addEntity(User::class, 100, [
             'emailAddress' => function () {
-                return $this->generator->unique(true)->email;
+                return $this->generator->unique()->email;
             },
             'firstName' => function () {
                 return $this->generator->firstName;
