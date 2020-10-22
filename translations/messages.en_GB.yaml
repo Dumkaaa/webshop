@@ -2,6 +2,7 @@ menu:
     profile: Profile
     logout: Logout
     dashboard: Dashboard
+    admin_user: System users
 
 profile:
     title: My profile

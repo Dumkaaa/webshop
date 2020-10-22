@@ -3,7 +3,9 @@
 namespace App\Tests\Unit\Admin\Menu;
 
 use App\Admin\Menu\AdminType;
+use App\Entity\Admin\User;
 use App\Tests\Unit\Menu\MenuTypeTest;
+use Symfony\Component\Security\Core\Security;
 
 class AdminTypeTest extends MenuTypeTest
 {
@@ -12,9 +14,40 @@ class AdminTypeTest extends MenuTypeTest
         $this->assertSame('admin', AdminType::getKey());
     }
 
-    public function testBuild(): void
+    public function testBuildAdminUser(): void
     {
-        $this->assertBuild(new AdminType(), [
+        $securityProphecy = $this->prophesize(Security::class);
+        $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(1)->willReturn(true);
+
+        $this->assertBuild(new AdminType($securityProphecy->reveal()), array_merge($this->getDefaultExpectedItems(), [
+            [
+                'identifier' => 'admin_user',
+                'label' => 'menu.admin_user',
+                'route' => 'admin_admin_user_index',
+                'route_params' => [],
+                'uri' => '/admin-users',
+                'target' => null,
+                'icon' => 'las la-user-shield',
+                'translation_domain' => 'messages',
+                'children' => [],
+            ],
+        ]));
+    }
+
+    public function testBuildDefaultUser(): void
+    {
+        $securityProphecy = $this->prophesize(Security::class);
+        $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(1)->willReturn(false);
+
+        $this->assertBuild(new AdminType($securityProphecy->reveal()), $this->getDefaultExpectedItems());
+    }
+
+    /**
+     * @return array<array<mixed>>
+     */
+    private function getDefaultExpectedItems(): array
+    {
+        return [
             [
                 'identifier' => 'dashboard',
                 'label' => 'menu.dashboard',
@@ -26,6 +59,6 @@ class AdminTypeTest extends MenuTypeTest
                 'translation_domain' => 'messages',
                 'children' => [],
             ],
-        ]);
+        ];
     }
 }
