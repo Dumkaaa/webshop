@@ -1,0 +1,5 @@
+{%- set options = options|merge({class: (options.class|default('') ~ ' sortable-th text-' ~ (sorted ? 'primary' : 'muted'))|trim}) -%}
+<a{% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>
+    {{- title -}}
+    <i class="las {% if sorted %}{{ direction == 'asc' ? 'la-arrow-up' : 'la-arrow-down' }}{% else %}la-arrows-alt-v{% endif %}"></i>
+</a>

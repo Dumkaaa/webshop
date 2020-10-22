@@ -16,6 +16,7 @@ class UserTest extends TestCase
         $this->assertNull($user->getId());
         $this->assertCount(1, $user->getRoles());
         $this->assertSame(User::ROLE_USER, $user->getRoles()[0]);
+        $this->assertFalse($user->hasRole(User::ROLE_ADMIN));
         $this->assertFalse($user->isEnabled());
         $this->assertNull($user->getLastLoginAt());
         $this->assertNull($user->getLastActiveAt());

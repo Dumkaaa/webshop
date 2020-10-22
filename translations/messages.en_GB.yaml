@@ -4,6 +4,11 @@ menu:
     dashboard: Dashboard
     admin_user: System users
 
+pagination:
+    search: Search...
+    current: 'Showing %min% to %max% of %total% results'
+    no_results: No results found...
+
 profile:
     title: My profile
     user_profile: "%name%'s profile"
@@ -16,6 +21,8 @@ admin_user:
     first_name: First name
     last_name: Last name
     full_name: Full name
+    last_active_at: Last active at
+    name: Name
     email_address: Email address
     new_password: New password
     repeat_new_password: Repeat new password

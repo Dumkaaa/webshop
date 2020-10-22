@@ -169,6 +169,11 @@ class User implements UserInterface, TimestampableInterface
         return $this;
     }
 
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles);
+    }
+
     public function isEnabled(): bool
     {
         return $this->isEnabled;

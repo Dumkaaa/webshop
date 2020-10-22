@@ -41,14 +41,28 @@ class AdminUserController extends AbstractController
     {
         $queryBuilder = $this->userRepository->createQueryBuilder('u');
 
+        $searchQuery = $request->get('q');
+        if ($searchQuery) {
+            $queryBuilder->setParameter('searchQuery', '%'.$searchQuery.'%')
+                ->orWhere('CONCAT(u.firstName, \' \', u.lastName) LIKE :searchQuery')
+                ->orWhere('u.emailAddress LIKE :searchQuery')
+            ;
+        }
+
         $pagination = $this->paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
             10,
+            [
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.lastActiveAt',
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'DESC',
+                PaginatorInterface::SORT_FIELD_ALLOW_LIST => ['u.firstName', 'u.emailAddress', 'u.lastActiveAt'],
+            ],
         );
 
         return $this->render('admin/admin_user/index.html.twig', [
             'pagination' => $pagination,
+            'searchQuery' => $searchQuery,
         ]);
     }
 }

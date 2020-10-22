@@ -6,14 +6,16 @@
     {% endblock navbar %}
     <div class="content">
         <div class="container-xl">
-            <div class="page-header">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        {% if block('page_subtitle') is defined %}<div class="page-pretitle">{{ block('page_subtitle') }}</div>{% endif %}
-                        {% if block('page_title') is defined %}<h2 class="page-title">{{ block('page_title') }}</h2>{% endif %}
+            {% if block('page_title') is defined or block('page_subtitle') is defined %}
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            {% if block('page_subtitle') is defined %}<div class="page-pretitle">{{ block('page_subtitle') }}</div>{% endif %}
+                            {% if block('page_title') is defined %}<h2 class="page-title">{{ block('page_title') }}</h2>{% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
             {% block content %}
             {% endblock content %}
         </div>

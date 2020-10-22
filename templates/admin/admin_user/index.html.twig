@@ -1,7 +1,57 @@
 {% extends 'admin/layout/default.html.twig' %}
 
-{% block page_title %}{{ 'admin_user.title'|trans }}{% endblock %}
+{% block browser_title %}{{ 'admin_user.title'|trans }}{% endblock %}
 
 {% block content %}
-    {{ 'admin_user.title'|trans }}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ 'admin_user.title'|trans }}</h3>
+            <form method="get" class="ml-auto">
+                <div class="input-icon">
+                    <span class="input-icon-addon">
+                        <i class="las la-search"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="{{ 'pagination.search'|trans }}" name="q" value="{{ searchQuery|e }}">
+                </div>
+            </form>
+        </div>
+        <table class="table table-vcenter card-table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>{{ knp_pagination_sortable(pagination, 'admin_user.name'|trans, 'u.firstName') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'admin_user.email_address'|trans, 'u.emailAddress') }}</th>
+                    <th>{{ knp_pagination_sortable(pagination, 'admin_user.last_active_at'|trans, 'u.lastActiveAt') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in pagination %}
+                    <tr>
+                        <td class="text-nowrap">
+                            <div class="d-flex lh-sm py-1 align-items-center">
+                                <span class="avatar mr-2">
+                                    <span class="badge {% if user.isActive %}bg-green{% else %}bg-gray-dark-lt{% endif %}"></span>
+                                    {{- user.firstName|first -}}{{- user.lastName|first -}}
+                                </span>
+                                <div class="flex-fill">
+                                    <div class="strong">{{ user.fullName }}</div>
+                                    <div class="text-muted text-h5">{% if user.hasRole('ROLE_ADMIN') %}{{ 'admin_user.role.ROLE_ADMIN'|trans }}{% else %}{{ 'admin_user.role.ROLE_USER'|trans }}{% endif %}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-nowrap"><a href="mailto:{{ user.emailAddress }}">{{ user.emailAddress }}</a></td>
+                        <td class="text-nowrap">{% if user.lastActiveAt %}{{ user.lastActiveAt|format_datetime('medium', 'short') }}{% endif %}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="text-muted text-center">{{ 'pagination.no_results'|trans }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if pagination|length > 0 %}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
 {% endblock content %}
