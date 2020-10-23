@@ -47,11 +47,28 @@
 
         // Update the actions row.
         function updateTableActions() {
+            // Index actions.
+            let actions = {};
+            let actionNames = [];
+            actionAnchors.forEach(function (anchor) {
+                const action = anchor.dataset.action;
+                if (action) {
+                    actions[action] = false;
+                    actionNames.push(action);
+                }
+            });
+
             // Index all values of the selected checkboxes.
             let selectedValues = [];
             bodyCheckboxes.forEach(function (checkbox) {
                 if (checkbox.checked) {
                     selectedValues.push(checkbox.dataset.value);
+                    actionNames.forEach(function (action) {
+                        const actionValue = checkbox.dataset['action'+action.charAt(0).toUpperCase() + action.slice(1)];
+                        if (actionValue === 'true') {
+                            actions[action] = true;
+                        }
+                    });
                 }
             });
 
@@ -66,6 +83,11 @@
             countSpan.innerHTML = selectedValues.length;
 
             actionAnchors.forEach(function (anchor) {
+                const action = anchor.dataset.action;
+                if (action) {
+                    anchor.classList.toggle('disabled', !actions[action]);
+                }
+
                 let href = anchor.dataset.baseHref;
                 if (!href) {
                     // This is not an action with a base href, ignore.

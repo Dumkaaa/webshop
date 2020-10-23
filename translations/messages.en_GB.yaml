@@ -32,6 +32,8 @@ admin_user:
     full_name: Full name
     last_active_at: Last active at
     is_enabled: Enabled
+    enable: Enable
+    disable: Disable
     name: Name
     email_address: Email address
     new_password: New password

@@ -25,14 +25,18 @@
                 <th class="w-1">{{ knp_pagination_sortable(pagination, 'admin_user.is_enabled'|trans, 'u.isEnabled') }}</th>
             </tr>
                 <tr class="checkbox-action-row">
-                    <td colspan="4">
+                    <td colspan="5">
                         <span class="count">0</span> {{ 'table.checkbox.selected'|trans }}
                         <span class="dropdown">
                             <button class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown">{{ 'table.checkbox.actions'|trans }}</button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item text-danger" href="#" data-base-href="#">
-                                    <span class="nav-link-icon mr-1"><i class="las la-trash-alt"></i></span>
-                                    <span class="label">{{ 'btn.delete'|trans }}</span>
+                                <a class="dropdown-item" href="#" data-base-href="#" data-action="enable">
+                                    <span class="nav-link-icon mr-1 text-success"><i class="las la-check"></i></span>
+                                    <span class="label">{{ 'admin_user.enable'|trans }}</span>
+                                </a>
+                                <a class="dropdown-item" href="#" data-base-href="#" data-action="disable">
+                                    <span class="nav-link-icon mr-1 text-danger"><i class="las la-times"></i></span>
+                                    <span class="label">{{ 'admin_user.disable'|trans }}</span>
                                 </a>
                             </div>
                         </span>
@@ -44,7 +48,10 @@
                     <tr{% if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::EDIT'), user) %} class="table-row-link" data-href="#test"{% endif %}>
                         <td class="no-click">
                             {%- if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::UPDATE_STATUS'), user) -%}
-                                <input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}">
+                                <input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}"
+                                   data-action-enable="{{ user.isEnabled ? 'false' : 'true' }}"
+                                   data-action-disable="{{ user.isEnabled ? 'true' : 'false' }}"
+                                >
                             {%- endif -%}
                         </td>
                         <td class="text-nowrap">
@@ -65,7 +72,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="3" class="text-muted text-center">{{ 'pagination.no_results'|trans }}</td>
+                        <td colspan="5" class="text-muted text-center">{{ 'pagination.no_results'|trans }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
