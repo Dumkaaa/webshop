@@ -2,6 +2,7 @@
 
 namespace App\Admin\Security\Voter;
 
+use App\Admin\Security\RoleChecker;
 use App\Entity\Admin\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -16,10 +17,12 @@ class AdminUserVoter extends Voter
     const UPDATE_ROLES = 'UPDATE_ADMIN_USER_ROLES';
 
     private Security $security;
+    private RoleChecker $roleChecker;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, RoleChecker $roleChecker)
     {
         $this->security = $security;
+        $this->roleChecker = $roleChecker;
     }
 
     protected function supports($attribute, $subject): bool
@@ -54,11 +57,11 @@ class AdminUserVoter extends Voter
             case self::EDIT:
             case self::UPDATE_STATUS:
                 /** @var User $subject */
-                if ($this->security->isGranted(User::ROLE_SUPER_ADMIN, $subject)) {
+                if ($this->roleChecker->hasRole($subject, User::ROLE_SUPER_ADMIN)) {
                     // Nobody can edit super admins except themselves (except editing states).
                     return self::UPDATE_STATUS !== $attribute && $subject === $user;
                 }
-                if ($this->security->isGranted(User::ROLE_ADMIN, $subject)) {
+                if ($this->roleChecker->hasRole($subject, User::ROLE_ADMIN)) {
                     // Only super admins and the users themselves can edit admins (except editing states for the users themselves).
                     return (self::UPDATE_STATUS !== $attribute && $subject === $user) || $this->security->isGranted(User::ROLE_SUPER_ADMIN);
                 }
@@ -69,7 +72,7 @@ class AdminUserVoter extends Voter
             case self::UPDATE_ROLES:
                 // Only super admins can update roles, and not those of super admins.
                 /* @var User $subject */
-                return !$this->security->isGranted(User::ROLE_SUPER_ADMIN, $subject)
+                return !$this->roleChecker->hasRole($subject, User::ROLE_SUPER_ADMIN)
                     && $this->security->isGranted(User::ROLE_SUPER_ADMIN);
 
             case self::VIEW:

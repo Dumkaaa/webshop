@@ -2,6 +2,7 @@
 
 namespace App\Tests\Admin\Security\Voter;
 
+use App\Admin\Security\RoleChecker;
 use App\Admin\Security\Voter\AdminUserVoter;
 use App\Entity\Admin\User;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +16,8 @@ class AdminUserVoterTest extends TestCase
     {
         // Don't prophesize methods as the tests should not pass the supports anyways.
         $security = $this->prophesize(Security::class)->reveal();
-        $voter = new AdminUserVoter($security);
+        $roleChecker = $this->prophesize(RoleChecker::class)->reveal();
+        $voter = new AdminUserVoter($security, $roleChecker);
 
         $token = $this->prophesize(TokenInterface::class)->reveal();
         $subject = new User();
@@ -34,7 +36,8 @@ class AdminUserVoterTest extends TestCase
     public function testUnauthorizedVote(): void
     {
         $security = $this->prophesize(Security::class)->reveal();
-        $voter = new AdminUserVoter($security);
+        $roleChecker = $this->prophesize(RoleChecker::class)->reveal();
+        $voter = new AdminUserVoter($security, $roleChecker);
 
         $tokenProphecy = $this->prophesize(TokenInterface::class);
         $tokenProphecy->getUser()->shouldBeCalledTimes(5)->willReturn(null);
@@ -56,7 +59,8 @@ class AdminUserVoterTest extends TestCase
     {
         $securityProphecy = $this->prophesize(Security::class);
         $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(5)->willReturn(false);
-        $voter = new AdminUserVoter($securityProphecy->reveal());
+        $roleChecker = $this->prophesize(RoleChecker::class)->reveal();
+        $voter = new AdminUserVoter($securityProphecy->reveal(), $roleChecker);
 
         $user = new User();
         $tokenProphecy = $this->prophesize(TokenInterface::class);
@@ -79,7 +83,8 @@ class AdminUserVoterTest extends TestCase
     {
         $securityProphecy = $this->prophesize(Security::class);
         $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(1)->willReturn(true);
-        $voter = new AdminUserVoter($securityProphecy->reveal());
+        $roleChecker = $this->prophesize(RoleChecker::class)->reveal();
+        $voter = new AdminUserVoter($securityProphecy->reveal(), $roleChecker);
 
         $tokenProphecy = $this->prophesize(TokenInterface::class);
         $user = new User();
@@ -93,7 +98,8 @@ class AdminUserVoterTest extends TestCase
     {
         $securityProphecy = $this->prophesize(Security::class);
         $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(1)->willReturn(true);
-        $voter = new AdminUserVoter($securityProphecy->reveal());
+        $roleChecker = $this->prophesize(RoleChecker::class)->reveal();
+        $voter = new AdminUserVoter($securityProphecy->reveal(), $roleChecker);
 
         $tokenProphecy = $this->prophesize(TokenInterface::class);
         $user = new User();
@@ -106,7 +112,8 @@ class AdminUserVoterTest extends TestCase
     public function testVoteEdit(): void
     {
         $securityProphecy = $this->prophesize(Security::class);
-        $voter = new AdminUserVoter($securityProphecy->reveal());
+        $roleCheckerProphecy = $this->prophesize(RoleChecker::class);
+        $voter = new AdminUserVoter($securityProphecy->reveal(), $roleCheckerProphecy->reveal());
 
         $tokenProphecy = $this->prophesize(TokenInterface::class);
         $token = $tokenProphecy->reveal();
@@ -116,8 +123,8 @@ class AdminUserVoterTest extends TestCase
 
         $tokenProphecy->getUser()->shouldBeCalledTimes(6)->willReturn($subject, $user, $subject, $user, $user, $user);
         $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(6)->willReturn(true);
-        $securityProphecy->isGranted(User::ROLE_SUPER_ADMIN, $subject)->shouldBeCalledTimes(6)->willReturn(true, true, false, false, false, false);
-        $securityProphecy->isGranted(User::ROLE_ADMIN, $subject)->shouldBeCalledTimes(4)->willReturn(true, true, true, false);
+        $roleCheckerProphecy->hasRole($subject, User::ROLE_SUPER_ADMIN)->shouldBeCalledTimes(6)->willReturn(true, true, false, false, false, false);
+        $roleCheckerProphecy->hasRole($subject, User::ROLE_ADMIN)->shouldBeCalledTimes(4)->willReturn(true, true, true, false);
 
         // Test with super admin subject while being the same user as the subject.
         $this->assertSame(VoterInterface::ACCESS_GRANTED, $voter->vote($token, $subject, [AdminUserVoter::EDIT]));
@@ -139,7 +146,8 @@ class AdminUserVoterTest extends TestCase
     public function testVoteUpdateStatus(): void
     {
         $securityProphecy = $this->prophesize(Security::class);
-        $voter = new AdminUserVoter($securityProphecy->reveal());
+        $roleCheckerProphecy = $this->prophesize(RoleChecker::class);
+        $voter = new AdminUserVoter($securityProphecy->reveal(), $roleCheckerProphecy->reveal());
 
         $tokenProphecy = $this->prophesize(TokenInterface::class);
         $token = $tokenProphecy->reveal();
@@ -149,8 +157,8 @@ class AdminUserVoterTest extends TestCase
 
         $tokenProphecy->getUser()->shouldBeCalledTimes(6)->willReturn($subject, $user, $subject, $user, $user, $user);
         $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(6)->willReturn(true);
-        $securityProphecy->isGranted(User::ROLE_SUPER_ADMIN, $subject)->shouldBeCalledTimes(6)->willReturn(true, true, false, false, false, false);
-        $securityProphecy->isGranted(User::ROLE_ADMIN, $subject)->shouldBeCalledTimes(4)->willReturn(true, true, true, false);
+        $roleCheckerProphecy->hasRole($subject, User::ROLE_SUPER_ADMIN)->shouldBeCalledTimes(6)->willReturn(true, true, false, false, false, false);
+        $roleCheckerProphecy->hasRole($subject, User::ROLE_ADMIN)->shouldBeCalledTimes(4)->willReturn(true, true, true, false);
 
         // Test with super admin subject while being the same user as the subject.
         $this->assertSame(VoterInterface::ACCESS_DENIED, $voter->vote($token, $subject, [AdminUserVoter::UPDATE_STATUS]));
@@ -172,7 +180,8 @@ class AdminUserVoterTest extends TestCase
     public function testVoteUpdateRoles(): void
     {
         $securityProphecy = $this->prophesize(Security::class);
-        $voter = new AdminUserVoter($securityProphecy->reveal());
+        $roleCheckerProphecy = $this->prophesize(RoleChecker::class);
+        $voter = new AdminUserVoter($securityProphecy->reveal(), $roleCheckerProphecy->reveal());
 
         $tokenProphecy = $this->prophesize(TokenInterface::class);
         $token = $tokenProphecy->reveal();
@@ -182,7 +191,7 @@ class AdminUserVoterTest extends TestCase
 
         $tokenProphecy->getUser()->shouldBeCalledTimes(3)->willReturn($user);
         $securityProphecy->isGranted(User::ROLE_ADMIN)->shouldBeCalledTimes(3)->willReturn(true);
-        $securityProphecy->isGranted(User::ROLE_SUPER_ADMIN, $subject)->shouldBeCalledTimes(3)->willReturn(false, true, false);
+        $roleCheckerProphecy->hasRole($subject, User::ROLE_SUPER_ADMIN)->shouldBeCalledTimes(3)->willReturn(false, true, false);
         $securityProphecy->isGranted(User::ROLE_SUPER_ADMIN)->shouldBeCalledTimes(2)->willReturn(true, false);
 
         // Test with a default user subject and super admin user.

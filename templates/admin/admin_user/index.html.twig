@@ -41,7 +41,11 @@
             <tbody>
                 {% for user in pagination %}
                     <tr class="table-row-link" data-href="#test">
-                        <td class="no-click"><input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}"></td>
+                        <td class="no-click">
+                            {%- if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::UPDATE_STATUS'), user) -%}
+                                <input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}">
+                            {%- endif -%}
+                        </td>
                         <td class="text-nowrap">
                             <div class="d-flex lh-sm py-1 align-items-center">
                                 <span class="avatar mr-2">
