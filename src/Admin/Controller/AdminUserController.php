@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controller;
 
+use App\Admin\Security\Voter\AdminUserVoter;
 use App\Entity\Admin\User;
 use App\Repository\Admin\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,9 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @IsGranted(User::ROLE_ADMIN)
- */
 class AdminUserController extends AbstractController
 {
     private UserRepository $userRepository;
@@ -36,6 +34,7 @@ class AdminUserController extends AbstractController
 
     /**
      * @Route("/admin-users", name="admin_admin_user_index")
+     * @IsGranted(AdminUserVoter::VIEW)
      */
     public function index(Request $request): Response
     {
