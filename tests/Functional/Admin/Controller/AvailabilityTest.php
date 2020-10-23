@@ -15,6 +15,7 @@ class AvailabilityTest extends DoctrineFixturesTest
     }
 
     /**
+     * @dataProvider superAdminUrlProvider
      * @dataProvider adminUrlProvider
      * @dataProvider userUrlProvider
      */
@@ -24,6 +25,38 @@ class AvailabilityTest extends DoctrineFixturesTest
 
         $this->assertResponseStatusCodeSame(302);
     }
+
+    /**
+     * @dataProvider superAdminUrlProvider
+     * @dataProvider adminUrlProvider
+     * @dataProvider userUrlProvider
+     */
+    public function testAuthorizedSuperAdmin(string $url): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
+
+        $this->client->loginUser($user, 'admin');
+        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+//    /**
+//     * @dataProvider superAdminUrlProvider
+//     */
+//    public function testUnauthorizedAdmin(string $url): void
+//    {
+//        /** @var UserRepository $userRepository */
+//        $userRepository = static::$container->get(UserRepository::class);
+//        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
+//
+//        $this->client->loginUser($user, 'admin');
+//        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+//
+//        $this->assertResponseStatusCodeSame(403);
+//    }
 
     /**
      * @dataProvider adminUrlProvider
@@ -93,5 +126,13 @@ class AvailabilityTest extends DoctrineFixturesTest
             // Admin user
             ['/admin-users'],
         ];
+    }
+
+    /**
+     * @return array<array<string>>
+     */
+    public function superAdminUrlProvider(): array
+    {
+        return [];
     }
 }

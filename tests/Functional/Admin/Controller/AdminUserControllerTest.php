@@ -24,14 +24,14 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->client->request('GET', '/admin-users', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
-        $this->assertStringContainsString('Showing 1 to 10 of 102 results', $content);
+        $this->assertStringContainsString('Showing 1 to 10 of 103 results', $content);
 
         $this->client->request('GET', '/admin-users', [
             'page' => 2,
         ], [], ['HTTP_HOST' => 'admin.webshop.test']);
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
-        $this->assertStringContainsString('Showing 11 to 20 of 102 results', $content);
+        $this->assertStringContainsString('Showing 11 to 20 of 103 results', $content);
     }
 
     public function testSorting(): void
@@ -91,6 +91,6 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         ], [], ['HTTP_HOST' => 'admin.webshop.test']);
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
-        $this->assertStringContainsString('Showing 1 to 1 of 1 results', $content);
+        $this->assertStringContainsString('Showing 1 to 2 of 2 results', $content);
     }
 }

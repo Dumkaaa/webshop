@@ -36,6 +36,7 @@ admin_user:
     new_password: New password
     repeat_new_password: Repeat new password
     role:
+        ROLE_SUPER_ADMIN: Owner
         ROLE_ADMIN: Administrator
         ROLE_USER: User
     online: Online

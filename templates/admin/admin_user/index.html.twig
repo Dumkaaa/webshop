@@ -50,7 +50,7 @@
                                 </span>
                                 <div class="flex-fill">
                                     <div class="strong">{{ user.fullName }}</div>
-                                    <div class="text-muted text-h5">{% if user.hasRole('ROLE_ADMIN') %}{{ 'admin_user.role.ROLE_ADMIN'|trans }}{% else %}{{ 'admin_user.role.ROLE_USER'|trans }}{% endif %}</div>
+                                    <div class="text-muted text-h5">{{ ('admin_user.role.'~user.mainRole)|trans }}</div>
                                 </div>
                             </div>
                         </td>

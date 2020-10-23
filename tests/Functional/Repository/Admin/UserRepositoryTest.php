@@ -22,7 +22,16 @@ class UserRepositoryTest extends DoctrineFixturesTest
 
         $users = $userRepository->findAll();
 
-        $this->assertCount(102, $users);
+        $this->assertCount(103, $users);
+
+        $superAdmin = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
+        $this->assertNotNull($superAdmin);
+        $this->assertCount(2, $superAdmin->getRoles());
+        $this->assertSame(User::ROLE_SUPER_ADMIN, $superAdmin->getRoles()[0]);
+        $this->assertSame(User::ROLE_USER, $superAdmin->getRoles()[1]);
+        $this->assertTrue($superAdmin->isEnabled());
+        $this->assertSame('Super', $superAdmin->getFirstName());
+        $this->assertSame('Admin', $superAdmin->getLastName());
 
         $admin = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
         $this->assertNotNull($admin);

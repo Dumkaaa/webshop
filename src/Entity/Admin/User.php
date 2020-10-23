@@ -21,6 +21,7 @@ class User implements UserInterface, TimestampableInterface
 
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
     /**
      * @ORM\Id
@@ -172,6 +173,20 @@ class User implements UserInterface, TimestampableInterface
     public function hasRole(string $role): bool
     {
         return in_array($role, $this->roles);
+    }
+
+    /**
+     * Returns the most important role of this user.
+     */
+    public function getMainRole(): string
+    {
+        if (in_array(self::ROLE_SUPER_ADMIN, $this->roles)) {
+            return self::ROLE_SUPER_ADMIN;
+        } elseif (in_array(self::ROLE_ADMIN, $this->roles)) {
+            return self::ROLE_ADMIN;
+        } else {
+            return self::ROLE_USER;
+        }
     }
 
     public function isEnabled(): bool

@@ -6,7 +6,7 @@
             </span>
             <div class="d-none d-xl-block pl-2">
                 <div>{{ app.user.fullName }}</div>
-                <div class="mt-1 small text-muted">{% if is_granted('ROLE_ADMIN') %}{{ 'admin_user.role.ROLE_ADMIN'|trans }}{% else %}{{ 'admin_user.role.ROLE_USER'|trans }}{% endif %}</div>
+                <div class="mt-1 small text-muted">{{ ('admin_user.role.'~app.user.mainRole)|trans }}</div>
             </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">

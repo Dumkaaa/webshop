@@ -16,6 +16,7 @@ class UserTest extends TestCase
         $this->assertNull($user->getId());
         $this->assertCount(1, $user->getRoles());
         $this->assertSame(User::ROLE_USER, $user->getRoles()[0]);
+        $this->assertSame(User::ROLE_USER, $user->getMainRole());
         $this->assertFalse($user->hasRole(User::ROLE_ADMIN));
         $this->assertFalse($user->isEnabled());
         $this->assertNull($user->getLastLoginAt());
@@ -47,10 +48,14 @@ class UserTest extends TestCase
         $user->setPassword('P4$$w0rd');
         $this->assertSame('P4$$w0rd', $user->getPassword());
 
+        $user->setRoles([User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN]);
+        $this->assertCount(3, $user->getRoles());
+        $this->assertSame(User::ROLE_SUPER_ADMIN, $user->getRoles()[0]);
+        $this->assertSame(User::ROLE_ADMIN, $user->getRoles()[1]);
+        $this->assertSame(User::ROLE_USER, $user->getRoles()[2]);
+        $this->assertSame(User::ROLE_SUPER_ADMIN, $user->getMainRole());
         $user->setRoles([User::ROLE_ADMIN]);
-        $this->assertCount(2, $user->getRoles());
-        $this->assertSame(User::ROLE_ADMIN, $user->getRoles()[0]);
-        $this->assertSame(User::ROLE_USER, $user->getRoles()[1]);
+        $this->assertSame(User::ROLE_ADMIN, $user->getMainRole());
 
         $user->setIsEnabled(true);
         $this->assertTrue($user->isEnabled());
