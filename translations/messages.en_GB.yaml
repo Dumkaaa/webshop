@@ -5,7 +5,6 @@ menu:
     admin_user: System users
 
 btn:
-    edit: Edit
     delete: Delete
     save: Save
 
@@ -13,6 +12,11 @@ pagination:
     search: Search...
     current: 'Showing %min% to %max% of %total% results'
     no_results: No results found...
+
+table:
+    checkbox:
+        actions: Actions
+        selected: record(s) selected
 
 profile:
     title: My profile

@@ -15,17 +15,33 @@
                 </div>
             </form>
         </div>
-        <table class="table table-vcenter card-table table-responsive table-striped">
+        <table class="table table-vcenter card-table table-responsive table-striped table-checkbox">
             <thead>
-                <tr>
-                    <th>{{ knp_pagination_sortable(pagination, 'admin_user.name'|trans, 'u.firstName') }}</th>
-                    <th>{{ knp_pagination_sortable(pagination, 'admin_user.email_address'|trans, 'u.emailAddress') }}</th>
-                    <th>{{ knp_pagination_sortable(pagination, 'admin_user.last_active_at'|trans, 'u.lastActiveAt') }}</th>
+            <tr>
+                <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"></th>
+                <th>{{ knp_pagination_sortable(pagination, 'admin_user.name'|trans, 'u.firstName') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'admin_user.email_address'|trans, 'u.emailAddress') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'admin_user.last_active_at'|trans, 'u.lastActiveAt') }}</th>
+            </tr>
+                <tr class="checkbox-action-row">
+                    <td colspan="4">
+                        <span class="count">0</span> {{ 'table.checkbox.selected'|trans }}
+                        <span class="dropdown">
+                            <button class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown">{{ 'table.checkbox.actions'|trans }}</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-danger" href="#" data-base-href="#">
+                                    <span class="nav-link-icon mr-1"><i class="las la-trash-alt"></i></span>
+                                    <span class="label">{{ 'btn.delete'|trans }}</span>
+                                </a>
+                            </div>
+                        </span>
+                    </td>
                 </tr>
             </thead>
             <tbody>
                 {% for user in pagination %}
                     <tr class="table-row-link" data-href="#test">
+                        <td class="no-click"><input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}"></td>
                         <td class="text-nowrap">
                             <div class="d-flex lh-sm py-1 align-items-center">
                                 <span class="avatar mr-2">

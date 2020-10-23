@@ -14,3 +14,24 @@
         background-color: #dbe8ff !important;
     }
 }
+
+.table-checkbox {
+    .checkbox-action-row {
+        display: none;
+        background: $primary;
+        color: $white;
+        &.show {
+            display: table-row;
+        }
+        .count  {
+            font-weight: bold;
+        }
+        .dropdown {
+            display: inline-flex;
+            margin-left: 0.5em;
+            .dropdown-menu, .dropdown-item {
+                min-width: auto;
+            }
+        }
+    }
+}
