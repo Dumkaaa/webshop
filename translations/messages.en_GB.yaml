@@ -4,6 +4,11 @@ menu:
     dashboard: Dashboard
     admin_user: System users
 
+btn:
+    edit: Edit
+    delete: Delete
+    save: Save
+
 pagination:
     search: Search...
     current: 'Showing %min% to %max% of %total% results'

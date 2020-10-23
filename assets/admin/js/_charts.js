@@ -1,6 +1,9 @@
 import ApexCharts from 'apexcharts';
 
 (function () {
+    /**
+     * User log charts.
+     */
     const userLogsChart = document.getElementById('chart-user-logs');
     if (userLogsChart) {
         new ApexCharts(userLogsChart, {
