@@ -24,14 +24,14 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->client->request('GET', '/admin-users', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
-        $this->assertStringContainsString('Showing 1 to 10 of 103 results', $content);
+        $this->assertStringContainsString('Showing 1 to 10 of 104 results', $content);
 
         $this->client->request('GET', '/admin-users', [
             'page' => 2,
         ], [], ['HTTP_HOST' => 'admin.webshop.test']);
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
-        $this->assertStringContainsString('Showing 11 to 20 of 103 results', $content);
+        $this->assertStringContainsString('Showing 11 to 20 of 104 results', $content);
     }
 
     public function testSorting(): void
@@ -47,6 +47,7 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Name<i class="las la-arrows-alt-v"></i>', $content);
         $this->assertStringContainsString('Email address<i class="las la-arrows-alt-v"></i>', $content);
         $this->assertStringContainsString('Last active at<i class="las la-arrow-up"></i>', $content);
+        $this->assertStringContainsString('Enabled<i class="las la-arrows-alt-v"></i>', $content);
 
         $this->client->request('GET', '/admin-users', [
             'sort' => 'u.firstName',
@@ -57,6 +58,7 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Name<i class="las la-arrow-down"></i>', $content);
         $this->assertStringContainsString('Email address<i class="las la-arrows-alt-v"></i>', $content);
         $this->assertStringContainsString('Last active at<i class="las la-arrows-alt-v"></i>', $content);
+        $this->assertStringContainsString('Enabled<i class="las la-arrows-alt-v"></i>', $content);
 
         $this->client->request('GET', '/admin-users', [
             'sort' => 'u.emailAddress',
@@ -67,6 +69,7 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Name<i class="las la-arrows-alt-v"></i>', $content);
         $this->assertStringContainsString('Email address<i class="las la-arrow-up"></i>', $content);
         $this->assertStringContainsString('Last active at<i class="las la-arrows-alt-v"></i>', $content);
+        $this->assertStringContainsString('Enabled<i class="las la-arrows-alt-v"></i>', $content);
 
         $this->client->request('GET', '/admin-users', [
             'sort' => 'u.lastActiveAt',
@@ -77,6 +80,18 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Name<i class="las la-arrows-alt-v"></i>', $content);
         $this->assertStringContainsString('Email address<i class="las la-arrows-alt-v"></i>', $content);
         $this->assertStringContainsString('Last active at<i class="las la-arrow-down"></i>', $content);
+        $this->assertStringContainsString('Enabled<i class="las la-arrows-alt-v"></i>', $content);
+
+        $this->client->request('GET', '/admin-users', [
+            'sort' => 'u.isEnabled',
+            'direction' => 'asc',
+        ], [], ['HTTP_HOST' => 'admin.webshop.test']);
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('Name<i class="las la-arrows-alt-v"></i>', $content);
+        $this->assertStringContainsString('Email address<i class="las la-arrows-alt-v"></i>', $content);
+        $this->assertStringContainsString('Last active at<i class="las la-arrows-alt-v"></i>', $content);
+        $this->assertStringContainsString('Enabled<i class="las la-arrow-down"></i>', $content);
     }
 
     public function testSearching(): void

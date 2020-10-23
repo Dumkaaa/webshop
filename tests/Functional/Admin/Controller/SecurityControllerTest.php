@@ -83,6 +83,21 @@ class SecurityControllerTest extends DoctrineFixturesTest
         $this->assertSelectorTextContains('html form div.alert-danger', 'Email address could not be found.');
     }
 
+    public function testDisabledAccount(): void
+    {
+        /** @var CsrfTokenManagerInterface $csrfTokenManager */
+        $csrfTokenManager = static::$container->get(CsrfTokenManagerInterface::class);
+
+        $this->client->request('POST', '/login', [
+            'emailAddress' => 'disabled@example.com',
+            'password' => 'P4$$w0rd',
+            '_csrf_token' => $csrfTokenManager->getToken('authenticate'),
+        ], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $this->client->followRedirect();
+        $this->assertSelectorTextContains('html form div.alert-danger', 'Account is disabled.');
+    }
+
     public function testInvalidPassword(): void
     {
         /** @var CsrfTokenManagerInterface $csrfTokenManager */

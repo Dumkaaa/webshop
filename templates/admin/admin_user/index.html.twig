@@ -22,6 +22,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'admin_user.name'|trans, 'u.firstName') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'admin_user.email_address'|trans, 'u.emailAddress') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'admin_user.last_active_at'|trans, 'u.lastActiveAt') }}</th>
+                <th class="w-1">{{ knp_pagination_sortable(pagination, 'admin_user.is_enabled'|trans, 'u.isEnabled') }}</th>
             </tr>
                 <tr class="checkbox-action-row">
                     <td colspan="4">
@@ -40,7 +41,7 @@
             </thead>
             <tbody>
                 {% for user in pagination %}
-                    <tr class="table-row-link" data-href="#test">
+                    <tr{% if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::EDIT'), user) %} class="table-row-link" data-href="#test"{% endif %}>
                         <td class="no-click">
                             {%- if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::UPDATE_STATUS'), user) -%}
                                 <input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}">
@@ -60,6 +61,7 @@
                         </td>
                         <td class="text-nowrap"><a href="mailto:{{ user.emailAddress }}">{{ user.emailAddress }}</a></td>
                         <td class="text-nowrap">{% if user.lastActiveAt %}{{ user.lastActiveAt|format_datetime('medium', 'short') }}{% endif %}</td>
+                        <td class="text-nowrap text-center"><i class="las la-{% if user.isEnabled %}check text-success{% else %}times text-danger{% endif %}"></i></td>
                     </tr>
                 {% else %}
                     <tr>

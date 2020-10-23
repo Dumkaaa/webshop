@@ -48,6 +48,14 @@ class UserFixtures extends Fixture
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'P4$$w0rd'));
         $manager->persist($user);
 
+        $disabledUser = new User();
+        $disabledUser->setEmailAddress('disabled@example.com');
+        $disabledUser->setFirstName('Disabled');
+        $disabledUser->setLastName('User');
+        $disabledUser->setIsEnabled(false);
+        $disabledUser->setPassword($this->passwordEncoder->encodePassword($disabledUser, 'P4$$w0rd'));
+        $manager->persist($disabledUser);
+
         // Add 100 fake users.
         $this->generator = Factory::create();
         $populator = new Populator($this->generator, $manager);

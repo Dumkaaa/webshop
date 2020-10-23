@@ -67,8 +67,6 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * @ORM\Column(type="boolean")
-     *
-     * TODO: Prevent disabled users from logging in.
      */
     private bool $isEnabled = false;
 

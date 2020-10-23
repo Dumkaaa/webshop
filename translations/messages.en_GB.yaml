@@ -31,6 +31,7 @@ admin_user:
     last_name: Last name
     full_name: Full name
     last_active_at: Last active at
+    is_enabled: Enabled
     name: Name
     email_address: Email address
     new_password: New password

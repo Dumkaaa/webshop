@@ -4,9 +4,7 @@ security:
             algorithm: auto
     providers:
         admin:
-            entity:
-                class: App\Entity\Admin\User
-                property: emailAddress
+            id: App\Admin\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

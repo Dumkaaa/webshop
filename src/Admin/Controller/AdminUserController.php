@@ -55,7 +55,7 @@ class AdminUserController extends AbstractController
             [
                 PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'u.lastActiveAt',
                 PaginatorInterface::DEFAULT_SORT_DIRECTION => 'DESC',
-                PaginatorInterface::SORT_FIELD_ALLOW_LIST => ['u.firstName', 'u.emailAddress', 'u.lastActiveAt'],
+                PaginatorInterface::SORT_FIELD_ALLOW_LIST => ['u.firstName', 'u.emailAddress', 'u.lastActiveAt', 'u.isEnabled'],
             ],
         );
 

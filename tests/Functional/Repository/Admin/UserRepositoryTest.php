@@ -22,7 +22,7 @@ class UserRepositoryTest extends DoctrineFixturesTest
 
         $users = $userRepository->findAll();
 
-        $this->assertCount(103, $users);
+        $this->assertCount(104, $users);
 
         $superAdmin = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
         $this->assertNotNull($superAdmin);
@@ -49,5 +49,13 @@ class UserRepositoryTest extends DoctrineFixturesTest
         $this->assertTrue($user->isEnabled());
         $this->assertSame('Foo', $user->getFirstName());
         $this->assertSame('Bar', $user->getLastName());
+
+        $disabledUser = $userRepository->findOneBy(['emailAddress' => 'disabled@example.com']);
+        $this->assertNotNull($disabledUser);
+        $this->assertCount(1, $disabledUser->getRoles());
+        $this->assertSame(User::ROLE_USER, $disabledUser->getRoles()[0]);
+        $this->assertFalse($disabledUser->isEnabled());
+        $this->assertSame('Disabled', $disabledUser->getFirstName());
+        $this->assertSame('User', $disabledUser->getLastName());
     }
 }
