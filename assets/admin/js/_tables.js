@@ -24,6 +24,11 @@
         const headerCheckbox = headerCheckboxes.length > 0 ? headerCheckboxes[0] : null;
         const bodyCheckboxes = table.querySelectorAll('tbody input[type="checkbox"]');
 
+        // Hide the header checkbox if there are no body checkboxes.
+        if (headerCheckbox && bodyCheckboxes.length === 0) {
+            headerCheckbox.remove();
+        }
+
         // Handle thead checkbox clicks.
         if (headerCheckbox) {
             headerCheckbox.addEventListener('click', function () {
