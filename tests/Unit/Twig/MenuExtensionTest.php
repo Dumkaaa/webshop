@@ -9,9 +9,15 @@ use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Node\Node;
 
+/**
+ * @covers \App\Twig\MenuExtension
+ */
 class MenuExtensionTest extends TestCase
 {
-    public function testGetFunction(): void
+    /**
+     * @covers \App\Twig\MenuExtension::getFunctions
+     */
+    public function testGetFunctions(): void
     {
         $factory = $this->prophesize(MenuFactory::class)->reveal();
         $environment = $this->prophesize(Environment::class)->reveal();
@@ -31,6 +37,9 @@ class MenuExtensionTest extends TestCase
         $this->assertSame(['html'], $function->getSafe(new Node()));
     }
 
+    /**
+     * @covers \App\Twig\MenuExtension::renderMenu
+     */
     public function testRenderMenu(): void
     {
         $menu = new Menu();

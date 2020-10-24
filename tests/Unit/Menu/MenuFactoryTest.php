@@ -11,8 +11,14 @@ use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @covers \App\Menu\MenuFactory
+ */
 class MenuFactoryTest extends TestCase
 {
+    /**
+     * @covers \App\Menu\MenuFactory::create
+     */
     public function testCreateByTypeKey(): void
     {
         $typeProphecy = $this->prophesize(MenuTypeInterface::class);
@@ -35,6 +41,9 @@ class MenuFactoryTest extends TestCase
         $this->assertCount(1, $menu);
     }
 
+    /**
+     * @covers \App\Menu\MenuFactory::create
+     */
     public function testCreateByTypeInstance(): void
     {
         $typeProphecy = $this->prophesize(MenuTypeInterface::class);
@@ -49,6 +58,9 @@ class MenuFactoryTest extends TestCase
         $this->assertCount(0, $menu);
     }
 
+    /**
+     * @covers \App\Menu\MenuFactory::guessType
+     */
     public function testGuessType(): void
     {
         $typeProphecy = $this->prophesize(MenuTypeInterface::class);
@@ -71,6 +83,9 @@ class MenuFactoryTest extends TestCase
         $factory->guessType('bar');
     }
 
+    /**
+     * @covers \App\Menu\MenuFactory::getTypeKeyForFullyQualifiedClassName
+     */
     public function testGetTypeKeyForFullyQualifiedClassName(): void
     {
         $this->assertSame('foo', MenuFactory::getTypeKeyForFullyQualifiedClassName('App\\Menu\\FooType'));

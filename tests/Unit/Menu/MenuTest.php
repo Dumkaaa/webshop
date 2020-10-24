@@ -6,6 +6,9 @@ use App\Menu\Menu;
 use App\Menu\MenuItem;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \App\Menu\Menu
+ */
 class MenuTest extends TestCase
 {
     public function testChildren(): void

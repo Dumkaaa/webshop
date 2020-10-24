@@ -10,6 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @covers \App\Admin\Security\Voter\AdminUserVoter
+ */
 class AdminUserVoterTest extends TestCase
 {
     public function testDoesNotSupport(): void

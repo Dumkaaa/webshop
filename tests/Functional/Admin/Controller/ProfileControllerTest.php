@@ -6,6 +6,9 @@ use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 use Symfony\Component\DomCrawler\Field\FormField;
 
+/**
+ * @covers \App\Admin\Controller\ProfileController
+ */
 class ProfileControllerTest extends DoctrineFixturesTest
 {
     protected function getFixtureGroups(): array
@@ -15,6 +18,9 @@ class ProfileControllerTest extends DoctrineFixturesTest
         ];
     }
 
+    /**
+     * @covers \App\Admin\Controller\ProfileController::view
+     */
     public function testOtherProfile(): void
     {
         /** @var UserRepository $userRepository */
@@ -30,6 +36,9 @@ class ProfileControllerTest extends DoctrineFixturesTest
         $this->assertStringNotContainsString('Edit profile', $content);
     }
 
+    /**
+     * @covers \App\Admin\Controller\ProfileController::view
+     */
     public function testProfileNotFound(): void
     {
         /** @var UserRepository $userRepository */
@@ -43,6 +52,9 @@ class ProfileControllerTest extends DoctrineFixturesTest
         $this->assertSame(404, $response->getStatusCode());
     }
 
+    /**
+     * @covers \App\Admin\Controller\ProfileController::edit
+     */
     public function testUpdateProfile(): void
     {
         /** @var UserRepository $userRepository */
@@ -70,6 +82,9 @@ class ProfileControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Profile saved', $content);
     }
 
+    /**
+     * @covers \App\Admin\Controller\ProfileController::edit
+     */
     public function testUpdateProfileInvalidPassword(): void
     {
         /** @var UserRepository $userRepository */

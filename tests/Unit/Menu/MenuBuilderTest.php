@@ -10,8 +10,14 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @covers \App\Menu\MenuBuilder
+ */
 class MenuBuilderTest extends TestCase
 {
+    /**
+     * @covers \App\Menu\MenuBuilder::add
+     */
     public function testAddExistingChild(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();
@@ -24,6 +30,9 @@ class MenuBuilderTest extends TestCase
         $this->assertSame($item, $builder->getMenu()['identifier']);
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::add
+     */
     public function testAddExistingRootChild(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();
@@ -36,6 +45,9 @@ class MenuBuilderTest extends TestCase
         $builder->add($child);
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::add
+     */
     public function testAddNewChildWithMinimalOptions(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();
@@ -54,6 +66,9 @@ class MenuBuilderTest extends TestCase
         $this->assertCount(0, $fooItem->getChildren());
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::add
+     */
     public function testAddNewChildWithMaximumOptions(): void
     {
         $routerProphecy = $this->prophesize(RouterInterface::class);
@@ -103,6 +118,9 @@ class MenuBuilderTest extends TestCase
         ]);
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::add
+     */
     public function testAddNewChildWithUriAndRoute(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();
@@ -113,6 +131,9 @@ class MenuBuilderTest extends TestCase
         $builder->add('test');
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::add
+     */
     public function testAddNewChildWithActiveAndActivePattern(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();
@@ -127,6 +148,9 @@ class MenuBuilderTest extends TestCase
         ]);
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::create
+     */
     public function testCreate(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();
@@ -138,6 +162,9 @@ class MenuBuilderTest extends TestCase
         $this->assertSame('foo_identifier', $childBuilder->getMenu()->getIdentifier());
     }
 
+    /**
+     * @covers \App\Menu\MenuBuilder::getMenu
+     */
     public function testGetMenu(): void
     {
         $router = $this->prophesize(RouterInterface::class)->reveal();

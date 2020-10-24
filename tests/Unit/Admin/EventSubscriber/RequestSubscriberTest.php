@@ -9,8 +9,14 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @covers \App\Admin\EventSubscriber\RequestSubscriber
+ */
 class RequestSubscriberTest extends TestCase
 {
+    /**
+     * @covers \App\Admin\EventSubscriber\RequestSubscriber::getSubscribedEvents
+     */
     public function testGetSubscribedEvents(): void
     {
         $this->assertSame([
@@ -18,6 +24,9 @@ class RequestSubscriberTest extends TestCase
         ], RequestSubscriber::getSubscribedEvents());
     }
 
+    /**
+     * @covers \App\Admin\EventSubscriber\RequestSubscriber::onKernelRequest
+     */
     public function testOnKernelRequest(): void
     {
         $eventProphecy = $this->prophesize(RequestEvent::class);

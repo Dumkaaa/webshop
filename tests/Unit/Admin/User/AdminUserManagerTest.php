@@ -11,8 +11,14 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @covers \App\Admin\User\AdminUserManager
+ */
 class AdminUserManagerTest extends TestCase
 {
+    /**
+     * @covers \App\Admin\User\AdminUserManager::toggleEnabled
+     */
     public function testToggleEnabledAccessDenied(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -33,6 +39,9 @@ class AdminUserManagerTest extends TestCase
         $manager->toggleEnabled(['foo@bar.com']);
     }
 
+    /**
+     * @covers \App\Admin\User\AdminUserManager::toggleEnabled
+     */
     public function testToggleEnabled(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -62,6 +71,9 @@ class AdminUserManagerTest extends TestCase
         $this->assertTrue($user2->isEnabled());
     }
 
+    /**
+     * @covers \App\Admin\User\AdminUserManager::toggleEnabled
+     */
     public function testToggleEnabledDisable(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);

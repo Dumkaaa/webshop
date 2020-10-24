@@ -12,8 +12,14 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @covers \App\Admin\Security\UserProvider
+ */
 class UserProviderTest extends TestCase
 {
+    /**
+     * @covers \App\Admin\Security\UserProvider::loadUserByUsername
+     */
     public function testLoadUserByUsername(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -27,6 +33,9 @@ class UserProviderTest extends TestCase
         $this->assertSame($user, $userProvider->loadUserByUsername('foo@bar.com'));
     }
 
+    /**
+     * @covers \App\Admin\Security\UserProvider::loadUserByUsername
+     */
     public function testLoadUserByUsernameNotFound(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -41,6 +50,9 @@ class UserProviderTest extends TestCase
         $userProvider->loadUserByUsername('foo@bar.com');
     }
 
+    /**
+     * @covers \App\Admin\Security\UserProvider::refreshUser
+     */
     public function testRefreshUser(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -58,6 +70,9 @@ class UserProviderTest extends TestCase
         $this->assertSame($refreshedUser, $userProvider->refreshUser($originalUser));
     }
 
+    /**
+     * @covers \App\Admin\Security\UserProvider::refreshUser
+     */
     public function testRefreshUserUnsupported(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -71,6 +86,9 @@ class UserProviderTest extends TestCase
         $userProvider->refreshUser($user);
     }
 
+    /**
+     * @covers \App\Admin\Security\UserProvider::refreshUser
+     */
     public function testRefreshUserDisabled(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);
@@ -89,6 +107,9 @@ class UserProviderTest extends TestCase
         $userProvider->refreshUser($originalUser);
     }
 
+    /**
+     * @covers \App\Admin\Security\UserProvider::supportsClass
+     */
     public function testSupportsClass(): void
     {
         $entityManager = $this->prophesize(EntityManagerInterface::class)->reveal();
@@ -98,6 +119,9 @@ class UserProviderTest extends TestCase
         $this->assertFalse($userProvider->supportsClass('User'));
     }
 
+    /**
+     * @covers \App\Admin\Security\UserProvider::upgradePassword
+     */
     public function testUpgradePassword(): void
     {
         $entityManagerProphecy = $this->prophesize(EntityManagerInterface::class);

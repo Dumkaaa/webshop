@@ -5,6 +5,9 @@ namespace App\Tests\Functional\Admin\Controller;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 
+/**
+ * @covers \App\Admin\Controller\AdminUserController
+ */
 class AdminUserControllerTest extends DoctrineFixturesTest
 {
     protected function getFixtureGroups(): array
@@ -14,6 +17,9 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         ];
     }
 
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::index
+     */
     public function testPagination(): void
     {
         /** @var UserRepository $userRepository */
@@ -34,6 +40,9 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Showing 11 to 20 of 104 results', $content);
     }
 
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::index
+     */
     public function testSorting(): void
     {
         /** @var UserRepository $userRepository */
@@ -94,6 +103,9 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Enabled<i class="las la-arrow-down"></i>', $content);
     }
 
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::index
+     */
     public function testSearching(): void
     {
         /** @var UserRepository $userRepository */
@@ -109,6 +121,9 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertStringContainsString('Showing 1 to 2 of 2 results', $content);
     }
 
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::bulkEnable
+     */
     public function testBulkEnable(): void
     {
         /** @var UserRepository $userRepository */
@@ -144,6 +159,9 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $this->assertResponseRedirects('/');
     }
 
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::bulkDisable
+     */
     public function testBulkDisable(): void
     {
         /** @var UserRepository $userRepository */

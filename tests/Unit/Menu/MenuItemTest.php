@@ -5,6 +5,9 @@ namespace App\Tests\Unit\Menu;
 use App\Menu\MenuItem;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \App\Menu\MenuItem
+ */
 class MenuItemTest extends TestCase
 {
     public function testDefaultConstruct(): void

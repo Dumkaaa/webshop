@@ -7,6 +7,9 @@ use App\Timestampable\TimestampableInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @covers \App\Entity\Admin\User
+ */
 class UserTest extends TestCase
 {
     public function testConstruct(): void
@@ -74,6 +77,9 @@ class UserTest extends TestCase
         $this->assertSame('Pl41nP4$$w0rd', $user->getPlainPassword());
     }
 
+    /**
+     * @covers \App\Entity\Admin\User::eraseCredentials
+     */
     public function testEraseCredentials(): void
     {
         $user = new User();

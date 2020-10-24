@@ -6,6 +6,10 @@ use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
+/**
+ * @covers \App\Admin\Controller\SecurityController
+ * @covers \App\Admin\Security\LoginFormAuthenticator
+ */
 class SecurityControllerTest extends DoctrineFixturesTest
 {
     protected function getFixtureGroups(): array
@@ -48,6 +52,8 @@ class SecurityControllerTest extends DoctrineFixturesTest
 
     /**
      * Test login after being redirected because the user was unauthorized to visit a page.
+     *
+     * @covers \App\Admin\Controller\SecurityController::login
      */
     public function testLoginFromRedirect(): void
     {

@@ -6,6 +6,9 @@ use App\Entity\Admin\User;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 
+/**
+ * @covers \App\Repository\Admin\UserRepository
+ */
 class UserRepositoryTest extends DoctrineFixturesTest
 {
     protected function getFixtureGroups(): array
@@ -15,6 +18,9 @@ class UserRepositoryTest extends DoctrineFixturesTest
         ];
     }
 
+    /**
+     * @covers \App\DataFixtures\Admin\UserFixtures::load
+     */
     public function testFixtures(): void
     {
         /** @var UserRepository $userRepository */
@@ -59,6 +65,9 @@ class UserRepositoryTest extends DoctrineFixturesTest
         $this->assertSame('User', $disabledUser->getLastName());
     }
 
+    /**
+     * @covers \App\Repository\Admin\UserRepository::findEnabledByEmailAddresses
+     */
     public function testFindEnabledByEmailAddresses(): void
     {
         /** @var UserRepository $userRepository */

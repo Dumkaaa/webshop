@@ -7,13 +7,22 @@ use App\Entity\Admin\User;
 use App\Tests\Unit\Menu\MenuTypeTest;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * @covers \App\Admin\Menu\AdminType
+ */
 class AdminTypeTest extends MenuTypeTest
 {
+    /**
+     * @covers \App\Admin\Menu\AdminType::getKey
+     */
     public function testKey(): void
     {
         $this->assertSame('admin', AdminType::getKey());
     }
 
+    /**
+     * @covers \App\Admin\Menu\AdminType::build
+     */
     public function testBuildAdminUser(): void
     {
         $securityProphecy = $this->prophesize(Security::class);
@@ -34,6 +43,9 @@ class AdminTypeTest extends MenuTypeTest
         ]));
     }
 
+    /**
+     * @covers \App\Admin\Menu\AdminType::build
+     */
     public function testBuildDefaultUser(): void
     {
         $securityProphecy = $this->prophesize(Security::class);

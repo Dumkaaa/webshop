@@ -7,8 +7,14 @@ use App\Entity\Admin\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
+/**
+ * @covers \App\Admin\Security\RoleChecker
+ */
 class RoleCheckerTest extends TestCase
 {
+    /**
+     * @covers \App\Admin\Security\RoleChecker::hasRole
+     */
     public function testHasRole(): void
     {
         $roleHierarchyProphecy = $this->prophesize(RoleHierarchyInterface::class);

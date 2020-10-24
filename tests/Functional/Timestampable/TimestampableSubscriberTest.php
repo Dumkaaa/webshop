@@ -10,6 +10,9 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * @covers \App\Timestampable\TimestampableSubscriber
+ */
 class TimestampableSubscriberTest extends KernelTestCase
 {
     protected EntityManagerInterface $entityManager;
@@ -36,6 +39,9 @@ class TimestampableSubscriberTest extends KernelTestCase
         $this->entityManager->close();
     }
 
+    /**
+     * @covers \App\Timestampable\TimestampableSubscriber::getSubscribedEvents
+     */
     public function testGetSubscribedEvents(): void
     {
         $subscriber = new TimestampableSubscriber();
@@ -46,6 +52,9 @@ class TimestampableSubscriberTest extends KernelTestCase
         ]);
     }
 
+    /**
+     * @covers \App\Timestampable\TimestampableSubscriber::prePersist
+     */
     public function testPrePersist(): void
     {
         // $entity can be any entity that implements TimestampableInterface.
@@ -66,6 +75,9 @@ class TimestampableSubscriberTest extends KernelTestCase
         $this->assertSame($entity->getLastUpdatedAt()->format('d-m-Y'), $currentDate->format('d-m-Y'));
     }
 
+    /**
+     * @covers \App\Timestampable\TimestampableSubscriber::preUpdate
+     */
     public function testPreUpdate(): void
     {
         // $entity can be any entity that implements TimestampableInterface.
@@ -88,6 +100,8 @@ class TimestampableSubscriberTest extends KernelTestCase
 
     /**
      * Test if the subscriber is subscribed to the doctrine events.
+     *
+     * @covers \App\Timestampable\TimestampableSubscriber::prePersist
      */
     public function testEvent(): void
     {
