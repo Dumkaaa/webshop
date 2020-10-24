@@ -18,4 +18,21 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    /**
+     * @param array<string> $emailAddresses
+     * @param bool          $enabled        set to false if you want to only select disabled users instead
+     *
+     * @return User[]
+     */
+    public function findEnabledByEmailAddresses(array $emailAddresses, bool $enabled = true): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.emailAddress IN (:emailAddresses)')
+            ->setParameter('emailAddresses', $emailAddresses)
+            ->andWhere('u.isEnabled = :reverseToggle')
+            ->setParameter('reverseToggle', $enabled)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -95,6 +95,7 @@
                 }
 
                 href += '?values=' + selectedValues.join(',');
+                href += '&referer=' + encodeURIComponent(window.location.href.replace(window.location.origin, ''));
                 anchor.href = href;
             });
         }

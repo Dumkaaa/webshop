@@ -30,11 +30,11 @@
                         <span class="dropdown">
                             <button class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown">{{ 'table.checkbox.actions'|trans }}</button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" data-base-href="#" data-action="enable">
+                                <a class="dropdown-item" data-base-href="{{ path('admin_admin_user_bulk_enable') }}" data-action="enable">
                                     <span class="nav-link-icon mr-1 text-success"><i class="las la-check"></i></span>
                                     <span class="label">{{ 'admin_user.enable'|trans }}</span>
                                 </a>
-                                <a class="dropdown-item" href="#" data-base-href="#" data-action="disable">
+                                <a class="dropdown-item" data-base-href="{{ path('admin_admin_user_bulk_disable') }}" data-action="disable">
                                     <span class="nav-link-icon mr-1 text-danger"><i class="las la-times"></i></span>
                                     <span class="label">{{ 'admin_user.disable'|trans }}</span>
                                 </a>
