@@ -2,6 +2,9 @@
 
 namespace App\Menu;
 
+/**
+ * Description of a single menu item with optional children.
+ */
 interface MenuItemInterface extends MenuInterface
 {
     public function getIdentifier(): string;

@@ -8,6 +8,9 @@ use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * Twig extension for rendering menu's using the \App\Menu\MenuFactory::class service.
+ */
 class MenuExtension extends AbstractExtension
 {
     private MenuFactory $factory;

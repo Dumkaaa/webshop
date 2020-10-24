@@ -5,6 +5,9 @@ namespace App\Admin\Menu;
 use App\Menu\AbstractMenuType;
 use App\Menu\MenuBuilder;
 
+/**
+ * Menu type for the profile dropdown menu of the logged in user.
+ */
 class AdminProfileType extends AbstractMenuType
 {
     public function build(MenuBuilder $builder): void

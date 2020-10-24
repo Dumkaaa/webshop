@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Traversable;
 
+/**
+ * Factory for \App\Menu\MenuInterface::class based on the given \App\Menu\MenuTypeInterface::class.
+ */
 class MenuFactory
 {
     /** @var array<MenuTypeInterface> */

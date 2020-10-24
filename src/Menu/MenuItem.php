@@ -2,6 +2,9 @@
 
 namespace App\Menu;
 
+/**
+ * Base implementation of \App\Menu\MenuItemInterface::class.
+ */
 class MenuItem extends Menu implements MenuItemInterface
 {
     private string $identifier;

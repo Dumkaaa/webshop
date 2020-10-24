@@ -2,6 +2,9 @@
 
 namespace App\Menu;
 
+/**
+ * Base implementation of \App\Menu\MenuInterface::class.
+ */
 class Menu implements MenuInterface
 {
     /**

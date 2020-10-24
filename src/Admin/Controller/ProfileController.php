@@ -12,6 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Controller for viewing and managing profiles of \App\Entity\Admin\User instances.
+ */
 class ProfileController extends AbstractController
 {
     private TranslatorInterface $translator;

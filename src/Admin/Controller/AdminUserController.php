@@ -18,6 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Controller for managing \App\Entity\Admin\User::class instances.
+ */
 class AdminUserController extends AbstractController
 {
     private UserRepository $userRepository;

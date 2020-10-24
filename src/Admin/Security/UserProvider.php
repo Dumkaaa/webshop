@@ -12,6 +12,9 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * User provider for the admin environment, provides \App\Entity\Admin\User::class.
+ */
 class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
     private EntityManagerInterface $entityManager;

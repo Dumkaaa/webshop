@@ -8,6 +8,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Logic that needs to be ran every request.
+ */
 class RequestSubscriber implements EventSubscriberInterface
 {
     private Security $security;
@@ -28,6 +31,7 @@ class RequestSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
+        // Only execute the logic for the master request.
         if ($event->isMasterRequest()) {
             $user = $this->security->getUser();
             if ($user && $user instanceof User) {

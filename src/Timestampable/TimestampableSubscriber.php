@@ -7,7 +7,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 
 /**
- * Updates the createdAt and lastUpdatedAt of entities that implement TimestampableInterface upon persisting and updating.
+ * Updates the createdAt and lastUpdatedAt of entities that implement TimestampableInterface::class upon persisting and updating.
  */
 class TimestampableSubscriber implements EventSubscriber
 {

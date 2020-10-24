@@ -2,6 +2,9 @@
 
 namespace App\Timestampable;
 
+/**
+ * Keep track of the creation and update timestamps of the instance.
+ */
 interface TimestampableInterface
 {
     public function getCreatedAt(): \DateTimeInterface;

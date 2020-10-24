@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * User for the admin environment.
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="admin_user")
  * @UniqueEntity("emailAddress")

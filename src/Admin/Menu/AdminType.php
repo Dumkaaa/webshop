@@ -7,6 +7,9 @@ use App\Menu\AbstractMenuType;
 use App\Menu\MenuBuilder;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Menu type for the default navbar in the admin.
+ */
 class AdminType extends AbstractMenuType
 {
     private Security $security;

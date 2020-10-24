@@ -8,12 +8,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Voter for \App\Entity\Admin\User::class.
+ */
 class AdminUserVoter extends Voter
 {
     const VIEW = 'VIEW_ADMIN_USER';
     const CREATE = 'CREATE_ADMIN_USER';
     const EDIT = 'EDIT_ADMIN_USER';
-    const UPDATE_STATUS = 'UPDATE_ADMIN_USER_STATUS';
+    const UPDATE_STATUS = 'UPDATE_ADMIN_USER_STATUS'; // Used for updating isEnabled.
     const UPDATE_ROLES = 'UPDATE_ADMIN_USER_ROLES';
 
     private Security $security;

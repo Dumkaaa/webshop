@@ -10,6 +10,9 @@ use Faker\Generator;
 use Faker\ORM\Doctrine\Populator;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Fixtures for \App\Entity\Admin\User::class.
+ */
 class UserFixtures extends Fixture
 {
     private UserPasswordEncoderInterface $passwordEncoder;

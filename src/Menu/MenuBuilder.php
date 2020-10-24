@@ -6,6 +6,9 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Builder used to help with creating menu's.
+ */
 class MenuBuilder
 {
     private RouterInterface $router;

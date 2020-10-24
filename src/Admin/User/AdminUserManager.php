@@ -9,6 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * Manager service for \App\Entity\Admin\User::class.
+ */
 class AdminUserManager
 {
     private EntityManagerInterface $entityManager;
