@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Admin\Security;
+namespace App\Tests\Unit\Admin\Security;
 
 use App\Admin\Security\RoleChecker;
 use App\Entity\Admin\User;

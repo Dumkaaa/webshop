@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Admin\Security\Voter;
+namespace App\Tests\Unit\Admin\Security\Voter;
 
 use App\Admin\Security\RoleChecker;
 use App\Admin\Security\Voter\AdminUserVoter;
