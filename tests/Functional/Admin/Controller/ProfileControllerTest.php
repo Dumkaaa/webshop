@@ -8,6 +8,7 @@ use Symfony\Component\DomCrawler\Field\FormField;
 
 /**
  * @covers \App\Admin\Controller\ProfileController
+ * @covers \App\Admin\Form\ProfileType
  */
 class ProfileControllerTest extends DoctrineFixturesTest
 {
@@ -54,6 +55,7 @@ class ProfileControllerTest extends DoctrineFixturesTest
 
     /**
      * @covers \App\Admin\Controller\ProfileController::edit
+     * @covers \App\Admin\Form\ProfileType
      */
     public function testUpdateProfile(): void
     {
@@ -66,15 +68,16 @@ class ProfileControllerTest extends DoctrineFixturesTest
 
         $form = $crawler->selectButton('Save')->form();
 
-        $firstPasswordField = $form['profile[plainPassword][first]'];
-        $secondPasswordField = $form['profile[plainPassword][second]'];
-        $this->assertInstanceOf(FormField::class, $firstPasswordField);
-        $this->assertInstanceOf(FormField::class, $secondPasswordField);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['profile[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['profile[plainPassword][second]']);
 
         $firstPasswordField->setValue('new_password');
         $secondPasswordField->setValue('new_password');
 
         $this->client->submit($form);
+
+        $this->assertResponseStatusCodeSame(302);
+        $this->client->followRedirect();
 
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
@@ -84,8 +87,9 @@ class ProfileControllerTest extends DoctrineFixturesTest
 
     /**
      * @covers \App\Admin\Controller\ProfileController::edit
+     * @covers \App\Admin\Form\ProfileType
      */
-    public function testUpdateProfileInvalidPassword(): void
+    public function testUpdateProfileInvalid(): void
     {
         /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
@@ -96,10 +100,8 @@ class ProfileControllerTest extends DoctrineFixturesTest
 
         $form = $crawler->selectButton('Save')->form();
 
-        $firstPasswordField = $form['profile[plainPassword][first]'];
-        $secondPasswordField = $form['profile[plainPassword][second]'];
-        $this->assertInstanceOf(FormField::class, $firstPasswordField);
-        $this->assertInstanceOf(FormField::class, $secondPasswordField);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['profile[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['profile[plainPassword][second]']);
 
         $firstPasswordField->setValue('new_password');
         $secondPasswordField->setValue('other_password');

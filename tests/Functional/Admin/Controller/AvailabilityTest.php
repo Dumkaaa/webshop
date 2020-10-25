@@ -5,6 +5,12 @@ namespace App\Tests\Functional\Admin\Controller;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 
+/**
+ * @covers \App\Admin\Controller\AdminUserController
+ * @covers \App\Admin\Controller\DashboardController
+ * @covers \App\Admin\Controller\ProfileController
+ * @covers \App\Admin\Controller\SecurityController
+ */
 class AvailabilityTest extends DoctrineFixturesTest
 {
     protected function getFixtureGroups(): array
@@ -43,20 +49,20 @@ class AvailabilityTest extends DoctrineFixturesTest
         $this->assertResponseStatusCodeSame(200);
     }
 
-//    /**
-//     * @dataProvider superAdminUrlProvider
-//     */
-//    public function testUnauthorizedAdmin(string $url): void
-//    {
-//        /** @var UserRepository $userRepository */
-//        $userRepository = static::$container->get(UserRepository::class);
-//        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
-//
-//        $this->client->loginUser($user, 'admin');
-//        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
-//
-//        $this->assertResponseStatusCodeSame(403);
-//    }
+    /**
+     * @dataProvider superAdminUrlProvider
+     */
+    public function testUnauthorizedAdmin(string $url): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
+
+        $this->client->loginUser($user, 'admin');
+        $this->client->request('GET', $url, [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
 
     /**
      * @dataProvider adminUrlProvider
@@ -125,6 +131,9 @@ class AvailabilityTest extends DoctrineFixturesTest
         return [
             // Admin user
             ['/admin-users'],
+            ['/admin-users/new'],
+            ['/admin-users/edit/user@example.com'],
+            ['/admin-users/edit/admin@example.com'],
         ];
     }
 
@@ -133,6 +142,9 @@ class AvailabilityTest extends DoctrineFixturesTest
      */
     public function superAdminUrlProvider(): array
     {
-        return [];
+        return [
+            // Admin user
+            ['/admin-users/edit/superadmin@example.com'],
+        ];
     }
 }

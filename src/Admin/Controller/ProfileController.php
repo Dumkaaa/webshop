@@ -50,7 +50,8 @@ class ProfileController extends AbstractController
             $this->entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans('profile.saved'));
-            $this->redirectToRoute('admin_profile_edit');
+
+            return $this->redirectToRoute('admin_profile_edit');
         } elseif ($form->isSubmitted()) {
             $this->addFlash('danger', $this->translator->trans('form.invalid'));
         }

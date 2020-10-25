@@ -61,7 +61,7 @@ class User implements UserInterface, TimestampableInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Assert\Choice({User::ROLE_ADMIN}, multiple=true)
+     * @Assert\Choice({User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN}, multiple=true)
      *
      * @var array<string>
      */
@@ -85,6 +85,7 @@ class User implements UserInterface, TimestampableInterface
     /**
      * Non-mapped password used for password generation.
      *
+     * @Assert\NotBlank(groups={"new"})
      * @Assert\Length(
      *      min = 6,
      *      max = 128

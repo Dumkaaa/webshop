@@ -6,14 +6,21 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ 'admin_user.title'|trans }}</h3>
-            <form method="get" class="ml-auto">
-                <div class="input-icon">
-                    <span class="input-icon-addon">
-                        <i class="las la-search"></i>
-                    </span>
-                    <input type="text" class="form-control" placeholder="{{ 'pagination.search'|trans }}" name="q" value="{{ searchQuery|e }}">
-                </div>
-            </form>
+            <div class="ml-auto d-flex">
+                {% if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::CREATE')) %}
+                    <a href="{{ path('admin_admin_user_new') }}" class="btn btn-outline-primary">
+                        <i class="icon las la-plus"></i> {{ 'btn.new'|trans }}
+                    </a>
+                {% endif %}
+                <form method="get" class="ml-3">
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="las la-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="{{ 'pagination.search'|trans }}" name="q" value="{{ searchQuery|e }}">
+                    </div>
+                </form>
+            </div>
         </div>
         <table class="table table-vcenter card-table table-responsive table-striped table-checkbox">
             <thead>
@@ -45,7 +52,9 @@
             </thead>
             <tbody>
                 {% for user in pagination %}
-                    <tr{% if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::EDIT'), user) %} class="table-row-link" data-href="#test"{% endif %}>
+                    <tr{% if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::EDIT'), user) %} class="table-row-link"
+                        data-href="{{ path('admin_admin_user_edit', { emailAddress: user.emailAddress }) }}"
+                    {% endif %}>
                         <td class="no-click">
                             {%- if is_granted(constant('App\\Admin\\Security\\Voter\\AdminUserVoter::UPDATE_STATUS'), user) -%}
                                 <input class="form-check-input m-0 align-middle" type="checkbox" data-value="{{ user.emailAddress }}"

@@ -13,6 +13,9 @@
     &:hover {
         background-color: #dbe8ff !important;
     }
+    .no-click {
+        cursor: auto;
+    }
 }
 
 .table-checkbox {
@@ -33,5 +36,8 @@
                 min-width: auto;
             }
         }
+    }
+    input[type="checkbox"] {
+        cursor: pointer;
     }
 }

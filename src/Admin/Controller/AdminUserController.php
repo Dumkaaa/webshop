@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controller;
 
+use App\Admin\Form\AdminUserType;
 use App\Admin\Security\Voter\AdminUserVoter;
 use App\Admin\User\AdminUserManager;
 use App\Entity\Admin\User;
@@ -70,6 +71,76 @@ class AdminUserController extends AbstractController
         return $this->render('admin/admin_user/index.html.twig', [
             'pagination' => $pagination,
             'searchQuery' => $searchQuery,
+        ]);
+    }
+
+    /**
+     * @Route("/admin-users/new", name="admin_admin_user_new")
+     * @IsGranted(AdminUserVoter::CREATE)
+     */
+    public function create(Request $request): Response
+    {
+        $user = new User();
+        $user->setIsEnabled(true);
+
+        // Make sure the password is required.
+        $form = $this->createForm(AdminUserType::class, $user, [
+            'require_password' => true,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Encode the password.
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('admin_user.created'));
+
+            return $this->redirectToRoute('admin_admin_user_edit', [
+                'emailAddress' => $user->getEmailAddress(),
+            ]);
+        } elseif ($form->isSubmitted()) {
+            $this->addFlash('danger', $this->translator->trans('form.invalid'));
+        }
+
+        return $this->render('admin/admin_user/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin-users/edit/{emailAddress}", name="admin_admin_user_edit")
+     * @IsGranted(AdminUserVoter::EDIT, subject="user")
+     */
+    public function edit(Request $request, User $user): Response
+    {
+        $form = $this->createForm(AdminUserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $user->getPlainPassword();
+            if ($newPassword) {
+                // Encode the new password.
+                $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
+            }
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('admin_user.saved'));
+
+            return $this->redirectToRoute('admin_admin_user_index');
+        } elseif ($form->isSubmitted()) {
+            $this->addFlash('danger', $this->translator->trans('form.invalid'));
+        }
+
+        return $this->render('admin/admin_user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 

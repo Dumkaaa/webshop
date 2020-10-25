@@ -1,0 +1,20 @@
+<div class="row mb-3">
+    <div class="col-12 col-md-6">{{ form_row(form.firstName) }}</div>
+    <div class="col-12 col-md-6">{{ form_row(form.lastName) }}</div>
+</div>
+<div class="row mb-3">
+    <div class="col-12 col-md-6">{{ form_row(form.emailAddress) }}</div>
+    <div class="col-12 col-md-6 mt-3">
+        {% if form.isEnabled is defined or form.roles is defined %}
+            <div class="col-12 col-md-6 mt-3">
+                {% if form.isEnabled is defined %}{{ form_row(form.isEnabled) }}{% endif %}
+                {% if form.roles is defined %}{{ form_row(form.roles) }}{% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-12 col-md-6">{{ form_row(form.plainPassword.first) }}</div>
+    <div class="col-12 col-md-6">{{ form_row(form.plainPassword.second) }}</div>
+</div>
+{{ form_widget(form) }}

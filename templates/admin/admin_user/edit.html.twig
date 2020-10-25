@@ -1,0 +1,29 @@
+{% extends 'admin/layout/default.html.twig' %}
+
+{% block browser_title %}{{ user.emailAddress }}{% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb mb-3" aria-label="breadcrumbs">
+        <li class="breadcrumb-item"><a href="{{ path('admin_admin_user_index') }}">{{ 'admin_user.title'|trans }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ user.emailAddress }}</li>
+    </ol>
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ user.emailAddress }}</h3>
+                    <a class="btn btn-outline-primary" href="{{ path('admin_profile_view', { emailAddress: user.emailAddress }) }}">{{ 'admin_user.view_profile'|trans }}</a>
+                </div>
+                {{ form_start(form) }}
+                <div class="card-body">
+                    {% include 'admin/admin_user/_form.html.twig' %}
+                </div>
+                <div class="card-footer text-right">
+                    <a class="btn btn-link" href="{{ path('admin_admin_user_index') }}">{{ 'btn.back'|trans }}</a>
+                    <button class="btn btn-primary">{{ 'btn.save'|trans }}</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

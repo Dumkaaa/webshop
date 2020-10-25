@@ -1,3 +1,19 @@
 .form-group:not(:last-of-type) {
     margin-bottom: 1em;
 }
+
+.form-label.required:after {
+    display: none;
+}
+
+.form-control {
+    max-width: 300px;
+}
+
+.input-group .form-control {
+    max-width: 260px;
+}
+
+.form-full-width .form-control {
+    max-width: none;
+}

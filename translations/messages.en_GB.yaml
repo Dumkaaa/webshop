@@ -7,6 +7,9 @@ menu:
 btn:
     delete: Delete
     save: Save
+    new: New
+    create: Create
+    back: Back
 
 pagination:
     search: Search...
@@ -27,6 +30,7 @@ profile:
 
 admin_user:
     title: System users
+    new: New user
     first_name: First name
     last_name: Last name
     full_name: Full name
@@ -42,6 +46,7 @@ admin_user:
         ROLE_SUPER_ADMIN: Owner
         ROLE_ADMIN: Administrator
         ROLE_USER: User
+    is_admin: Administrator
     online: Online
     offline: Offline
     log:
@@ -49,6 +54,9 @@ admin_user:
         subject: Subject
         action: Action
         date: Date
+    created: User created
+    saved: User saved
+    view_profile: View profile
 
 dashboard:
     title: Dashboard

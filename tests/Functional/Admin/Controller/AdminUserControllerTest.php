@@ -4,9 +4,12 @@ namespace App\Tests\Functional\Admin\Controller;
 
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
+use Symfony\Component\DomCrawler\Field\FormField;
 
 /**
  * @covers \App\Admin\Controller\AdminUserController
+ * @covers \App\Admin\Form\AdminUserType
  */
 class AdminUserControllerTest extends DoctrineFixturesTest
 {
@@ -119,6 +122,230 @@ class AdminUserControllerTest extends DoctrineFixturesTest
         $content = $this->client->getResponse()->getContent();
         $this->assertIsString($content);
         $this->assertStringContainsString('Showing 1 to 2 of 2 results', $content);
+    }
+
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::create
+     * @covers \App\Admin\Form\AdminUserType
+     */
+    public function testCreate(): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $crawler = $this->client->request('GET', '/admin-users/new', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $form = $crawler->selectButton('Create')->form();
+
+        $this->assertInstanceOf(FormField::class, $firstNameField = $form['admin_user[firstName]']);
+        $this->assertInstanceOf(FormField::class, $lastNameField = $form['admin_user[lastName]']);
+        $this->assertInstanceOf(FormField::class, $emailAddressField = $form['admin_user[emailAddress]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $isEnabledField = $form['admin_user[isEnabled]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $rolesField = $form['admin_user[roles]']);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['admin_user[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['admin_user[plainPassword][second]']);
+
+        $firstNameField->setValue('Foo');
+        $lastNameField->setValue('Bar');
+        $emailAddressField->setValue('foo@bar.com');
+        $isEnabledField->tick();
+        $rolesField->tick();
+        $firstPasswordField->setValue('new_password');
+        $secondPasswordField->setValue('new_password');
+
+        $this->client->submit($form);
+
+        $this->assertResponseStatusCodeSame(302);
+        $this->client->followRedirect();
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('foo@bar.com', $content);
+        $this->assertStringContainsString('User created', $content);
+    }
+
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::create
+     * @covers \App\Admin\Form\AdminUserType
+     */
+    public function testCreateInvalid(): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $crawler = $this->client->request('GET', '/admin-users/new', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $form = $crawler->selectButton('Create')->form();
+
+        $this->assertInstanceOf(FormField::class, $firstNameField = $form['admin_user[firstName]']);
+        $this->assertInstanceOf(FormField::class, $lastNameField = $form['admin_user[lastName]']);
+        $this->assertInstanceOf(FormField::class, $emailAddressField = $form['admin_user[emailAddress]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $isEnabledField = $form['admin_user[isEnabled]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $rolesField = $form['admin_user[roles]']);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['admin_user[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['admin_user[plainPassword][second]']);
+
+        $firstNameField->setValue('Foo');
+        $lastNameField->setValue('Bar');
+        $emailAddressField->setValue('admin@example.com');
+        $isEnabledField->tick();
+        $rolesField->tick();
+        $firstPasswordField->setValue('new_password');
+        $secondPasswordField->setValue('other_password');
+
+        $this->client->submit($form);
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('Check the form for errors', $content);
+        $this->assertStringContainsString('This value is already used.', $content);
+        $this->assertStringContainsString('The password fields must match', $content);
+
+        $firstPasswordField->setValue('short');
+        $secondPasswordField->setValue('short');
+
+        $this->client->submit($form);
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('Check the form for errors', $content);
+        $this->assertStringContainsString('This value is too short. It should have 6 characters or more.', $content);
+    }
+
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::create
+     * @covers \App\Admin\Form\AdminUserType
+     */
+    public function testCreateFieldsAsAdmin(): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'admin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $crawler = $this->client->request('GET', '/admin-users/new', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+        $form = $crawler->selectButton('Create')->form();
+
+        $this->assertInstanceOf(FormField::class, $firstNameField = $form['admin_user[firstName]']);
+        $this->assertInstanceOf(FormField::class, $lastNameField = $form['admin_user[lastName]']);
+        $this->assertInstanceOf(FormField::class, $emailAddressField = $form['admin_user[emailAddress]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $isEnabledField = $form['admin_user[isEnabled]']);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['admin_user[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['admin_user[plainPassword][second]']);
+
+        $this->assertFalse($form->has('admin_user[roles]'));
+    }
+
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::edit
+     * @covers \App\Admin\Form\AdminUserType
+     */
+    public function testEdit(): void
+    {
+        $this->submitEditForm();
+    }
+
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::edit
+     * @covers \App\Admin\Form\AdminUserType
+     */
+    public function testEditNewPassword(): void
+    {
+        $this->submitEditForm(true);
+    }
+
+    private function submitEditForm(bool $newPassword = false): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $crawler = $this->client->request('GET', '/admin-users/edit/admin@example.com', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $form = $crawler->selectButton('Save')->form();
+
+        $this->assertInstanceOf(FormField::class, $firstNameField = $form['admin_user[firstName]']);
+        $this->assertInstanceOf(FormField::class, $lastNameField = $form['admin_user[lastName]']);
+        $this->assertInstanceOf(FormField::class, $emailAddressField = $form['admin_user[emailAddress]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $isEnabledField = $form['admin_user[isEnabled]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $rolesField = $form['admin_user[roles]']);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['admin_user[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['admin_user[plainPassword][second]']);
+
+        $firstNameField->setValue('Foo');
+        $lastNameField->setValue('Bar');
+        $emailAddressField->setValue('admin@example.com');
+        $isEnabledField->tick();
+        $rolesField->tick();
+        if ($newPassword) {
+            $firstPasswordField->setValue('new_password');
+            $secondPasswordField->setValue('new_password');
+        }
+
+        $this->client->submit($form);
+
+        $this->assertResponseStatusCodeSame(302);
+        $this->client->followRedirect();
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('admin@example.com', $content);
+        $this->assertStringContainsString('User saved', $content);
+    }
+
+    /**
+     * @covers \App\Admin\Controller\AdminUserController::edit
+     * @covers \App\Admin\Form\AdminUserType
+     */
+    public function testEditInvalid(): void
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $user = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
+        $this->client->loginUser($user, 'admin');
+
+        $crawler = $this->client->request('GET', '/admin-users/edit/admin@example.com', [], [], ['HTTP_HOST' => 'admin.webshop.test']);
+
+        $form = $crawler->selectButton('Save')->form();
+
+        $this->assertInstanceOf(FormField::class, $firstNameField = $form['admin_user[firstName]']);
+        $this->assertInstanceOf(FormField::class, $lastNameField = $form['admin_user[lastName]']);
+        $this->assertInstanceOf(FormField::class, $emailAddressField = $form['admin_user[emailAddress]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $isEnabledField = $form['admin_user[isEnabled]']);
+        $this->assertInstanceOf(ChoiceFormField::class, $rolesField = $form['admin_user[roles]']);
+        $this->assertInstanceOf(FormField::class, $firstPasswordField = $form['admin_user[plainPassword][first]']);
+        $this->assertInstanceOf(FormField::class, $secondPasswordField = $form['admin_user[plainPassword][second]']);
+
+        $firstNameField->setValue('Foo');
+        $lastNameField->setValue('Bar');
+        $emailAddressField->setValue('user@example.com');
+        $isEnabledField->tick();
+        $rolesField->tick();
+        $firstPasswordField->setValue('new_password');
+        $secondPasswordField->setValue('other_password');
+
+        $this->client->submit($form);
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('Check the form for errors', $content);
+        $this->assertStringContainsString('This value is already used.', $content);
+        $this->assertStringContainsString('The password fields must match', $content);
+
+        $firstPasswordField->setValue('short');
+        $secondPasswordField->setValue('short');
+
+        $this->client->submit($form);
+
+        $content = $this->client->getResponse()->getContent();
+        $this->assertIsString($content);
+        $this->assertStringContainsString('Check the form for errors', $content);
+        $this->assertStringContainsString('This value is too short. It should have 6 characters or more.', $content);
     }
 
     /**
