@@ -12,7 +12,11 @@ services:
             tags: ['app.menu_type']
 
     App\:
-        resource: '../src/{Admin,DataFixtures,Repository,Twig}'
+        resource: '../src/{ActionLog,Admin,DataFixtures,Repository,Twig}'
+
+    App\ActionLog\ActionLogSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
 
     App\Admin\Controller\:
         resource: '../src/Admin/Controller/'

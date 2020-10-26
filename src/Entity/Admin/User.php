@@ -2,6 +2,7 @@
 
 namespace App\Entity\Admin;
 
+use App\ActionLog\LoggableObjectInterface;
 use App\Repository\Admin\UserRepository;
 use App\Timestampable\TimestampableEntity;
 use App\Timestampable\TimestampableInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="admin_user")
  * @UniqueEntity("emailAddress")
  */
-class User implements UserInterface, TimestampableInterface
+class User implements UserInterface, TimestampableInterface, LoggableObjectInterface
 {
     use TimestampableEntity;
 
@@ -265,5 +266,16 @@ class User implements UserInterface, TimestampableInterface
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNonLoggableProperties(): array
+    {
+        return [
+            'lastLoginAt',
+            'lastActiveAt',
+        ];
     }
 }

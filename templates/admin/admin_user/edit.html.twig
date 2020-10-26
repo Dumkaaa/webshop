@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{ user.emailAddress }}</h3>
-                    <a class="btn btn-outline-primary" href="{{ path('admin_profile_view', { emailAddress: user.emailAddress }) }}">{{ 'admin_user.view_profile'|trans }}</a>
+                    <a class="btn btn-outline-primary ml-auto" href="{{ path('admin_profile_view', { emailAddress: user.emailAddress }) }}">{{ 'admin_user.view_profile'|trans }}</a>
                 </div>
                 {{ form_start(form) }}
                 <div class="card-body">
