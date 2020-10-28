@@ -7,6 +7,7 @@ use App\Entity\ActionLogChange;
 use App\Entity\Admin\User;
 use App\Exception\InvalidActionLogActionException;
 use App\Exception\NonPersistedActionLogObjectException;
+use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -54,7 +55,7 @@ class ActionLogger
         }
 
         // Create the action.
-        $actionLog = new ActionLog($action, get_class($object), $id, $user);
+        $actionLog = new ActionLog($action, ClassUtils::getClass($object), $id, $user);
 
         // Create the changes.
         foreach ($changeSet as $property => $values) {
