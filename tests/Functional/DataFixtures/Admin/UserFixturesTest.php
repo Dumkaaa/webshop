@@ -61,16 +61,14 @@ class UserFixturesTest extends WebTestCase
         /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
 
-        $users = $userRepository->findAll();
-        $this->assertCount(0, $users);
+        $this->assertSame(0, $userRepository->count([]));
 
         $referenceRepository = new ReferenceRepository($entityManager);
         $fixtures = new UserFixtures($passwordEncoder);
         $fixtures->setReferenceRepository($referenceRepository);
         $fixtures->load($entityManager);
 
-        $users = $userRepository->findAll();
-        $this->assertCount(104, $users);
+        $this->assertSame(104, $userRepository->count([]));
 
         $superAdmin = $userRepository->findOneBy(['emailAddress' => 'superadmin@example.com']);
         $this->assertNotNull($superAdmin);
