@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Admin\Controller;
 
+use App\DataFixtures\FixtureGroupInterface;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
@@ -16,7 +17,7 @@ class AdminUserControllerTest extends DoctrineFixturesTest
     protected function getFixtureGroups(): array
     {
         return [
-            'UserFixtures',
+            FixtureGroupInterface::ADMIN_USER,
         ];
     }
 

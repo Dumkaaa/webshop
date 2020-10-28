@@ -5,6 +5,7 @@ namespace App\Tests\Functional\DataFixtures\Admin;
 use App\DataFixtures\Admin\UserFixtures;
 use App\Entity\Admin\User;
 use App\Repository\Admin\UserRepository;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -31,6 +32,26 @@ class UserFixturesTest extends WebTestCase
         parent::setUp();
     }
 
+    /**
+     * @covers \App\DataFixtures\Admin\UserFixtures::load
+     */
+    public function testFixturesWithoutReferenceRepository(): void
+    {
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = static::$container->get(EntityManagerInterface::class);
+        /** @var UserPasswordEncoderInterface $passwordEncoder */
+        $passwordEncoder = static::$container->get(UserPasswordEncoderInterface::class);
+
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Call to a member function setReference() on null');
+
+        $fixtures = new UserFixtures($passwordEncoder);
+        $fixtures->load($entityManager);
+    }
+
+    /**
+     * @covers \App\DataFixtures\Admin\UserFixtures::load
+     */
     public function testFixtures(): void
     {
         /** @var EntityManagerInterface $entityManager */
@@ -43,7 +64,9 @@ class UserFixturesTest extends WebTestCase
         $users = $userRepository->findAll();
         $this->assertCount(0, $users);
 
+        $referenceRepository = new ReferenceRepository($entityManager);
         $fixtures = new UserFixtures($passwordEncoder);
+        $fixtures->setReferenceRepository($referenceRepository);
         $fixtures->load($entityManager);
 
         $users = $userRepository->findAll();

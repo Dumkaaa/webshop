@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Repository\Admin;
 
+use App\DataFixtures\FixtureGroupInterface;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 
@@ -13,7 +14,7 @@ class UserRepositoryTest extends DoctrineFixturesTest
     protected function getFixtureGroups(): array
     {
         return [
-            'UserFixtures',
+            FixtureGroupInterface::ADMIN_USER,
         ];
     }
 

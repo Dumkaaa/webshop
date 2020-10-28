@@ -17,7 +17,7 @@ class ActionLogChange
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=ActionLog::class, inversedBy="changes")
@@ -58,23 +58,9 @@ class ActionLogChange
         return $this->actionLog;
     }
 
-    public function setActionLog(ActionLog $actionLog): self
-    {
-        $this->actionLog = $actionLog;
-
-        return $this;
-    }
-
     public function getProperty(): string
     {
         return $this->property;
-    }
-
-    public function setProperty(string $property): self
-    {
-        $this->property = $property;
-
-        return $this;
     }
 
     public function getOldValue(): ?string
@@ -82,22 +68,8 @@ class ActionLogChange
         return $this->oldValue;
     }
 
-    public function setOldValue(?string $oldValue): self
-    {
-        $this->oldValue = $oldValue;
-
-        return $this;
-    }
-
     public function getNewValue(): ?string
     {
         return $this->newValue;
-    }
-
-    public function setNewValue(?string $newValue): self
-    {
-        $this->newValue = $newValue;
-
-        return $this;
     }
 }

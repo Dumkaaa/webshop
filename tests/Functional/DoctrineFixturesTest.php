@@ -15,6 +15,13 @@ abstract class DoctrineFixturesTest extends WebTestCase
     {
         $this->client = static::createClient();
 
+        $this->loadFixtures();
+
+        parent::setUp();
+    }
+
+    protected function loadFixtures(): void
+    {
         $application = new Application($this->client->getKernel());
         $application->setAutoExit(false);
 
@@ -25,8 +32,6 @@ abstract class DoctrineFixturesTest extends WebTestCase
         }
 
         $application->run(new StringInput($command));
-
-        parent::setUp();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Admin\Controller;
 
+use App\DataFixtures\FixtureGroupInterface;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 
@@ -13,10 +14,27 @@ use App\Tests\Functional\DoctrineFixturesTest;
  */
 class AvailabilityTest extends DoctrineFixturesTest
 {
+    private static bool $isFixturesLoaded = false;
+
+    protected function loadFixtures(): void
+    {
+        /**
+         * Make sure the fixtures are only loaded once.
+         * The availability test does not rely on database changes, plus it would affect the test duration too much.
+         */
+        if (self::$isFixturesLoaded) {
+            return;
+        }
+
+        self::$isFixturesLoaded = true;
+
+        parent::loadFixtures();
+    }
+
     protected function getFixtureGroups(): array
     {
         return [
-            'UserFixtures',
+            FixtureGroupInterface::ADMIN,
         ];
     }
 

@@ -28,7 +28,7 @@ class ActionLog implements TimestampableInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=10)
@@ -77,23 +77,9 @@ class ActionLog implements TimestampableInterface
         return $this->action;
     }
 
-    public function setAction(string $action): self
-    {
-        $this->action = $action;
-
-        return $this;
-    }
-
     public function getObjectClass(): string
     {
         return $this->objectClass;
-    }
-
-    public function setObjectClass(string $objectClass): self
-    {
-        $this->objectClass = $objectClass;
-
-        return $this;
     }
 
     public function getObjectId(): int
@@ -101,23 +87,9 @@ class ActionLog implements TimestampableInterface
         return $this->objectId;
     }
 
-    public function setObjectId(int $objectId): self
-    {
-        $this->objectId = $objectId;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     /**
@@ -132,7 +104,6 @@ class ActionLog implements TimestampableInterface
     {
         if (!$this->changes->contains($change)) {
             $this->changes[] = $change;
-            $change->setActionLog($this);
         }
 
         return $this;

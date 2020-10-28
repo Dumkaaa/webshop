@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Entity\Admin;
 
+use App\ActionLog\LoggableObjectInterface;
 use App\Entity\Admin\User;
 use App\Timestampable\TimestampableInterface;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +31,11 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf(UserInterface::class, $user);
         $this->assertInstanceOf(TimestampableInterface::class, $user);
+        $this->assertInstanceOf(LoggableObjectInterface::class, $user);
+        $this->assertSame([
+            'lastLoginAt',
+            'lastActiveAt',
+        ], $user->getNonLoggableProperties());
     }
 
     public function testSetters(): void

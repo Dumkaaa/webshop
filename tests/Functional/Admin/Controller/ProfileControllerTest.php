@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Admin\Controller;
 
+use App\DataFixtures\FixtureGroupInterface;
 use App\Repository\Admin\UserRepository;
 use App\Tests\Functional\DoctrineFixturesTest;
 use Symfony\Component\DomCrawler\Field\FormField;
@@ -15,7 +16,7 @@ class ProfileControllerTest extends DoctrineFixturesTest
     protected function getFixtureGroups(): array
     {
         return [
-            'UserFixtures',
+            FixtureGroupInterface::ADMIN_USER,
         ];
     }
 

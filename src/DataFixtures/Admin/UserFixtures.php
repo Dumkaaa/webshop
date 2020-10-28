@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures\Admin;
 
+use App\DataFixtures\FixtureGroupInterface;
 use App\Entity\Admin\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -13,14 +14,27 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Fixtures for \App\Entity\Admin\User::class.
  */
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements FixtureGroupInterface
 {
+    const REFERENCE_SUPER_ADMIN = 'user_super_admin';
+    const REFERENCE_ADMIN = 'user_admin';
+    const REFERENCE_USER = 'user_user';
+    const REFERENCE_DISABLED = 'user_super_disabled';
+
     private UserPasswordEncoderInterface $passwordEncoder;
     private Generator $generator;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
+    }
+
+    public static function getGroups(): array
+    {
+        return [
+            FixtureGroupInterface::ADMIN,
+            FixtureGroupInterface::ADMIN_USER,
+        ];
     }
 
     public function load(ObjectManager $manager): void
@@ -33,6 +47,7 @@ class UserFixtures extends Fixture
         $superAdmin->setIsEnabled(true);
         $superAdmin->setPassword($this->passwordEncoder->encodePassword($superAdmin, 'P4$$w0rd'));
         $manager->persist($superAdmin);
+        $this->setReference(self::REFERENCE_SUPER_ADMIN, $superAdmin);
 
         $admin = new User();
         $admin->setEmailAddress('admin@example.com');
@@ -42,6 +57,7 @@ class UserFixtures extends Fixture
         $admin->setIsEnabled(true);
         $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'P4$$w0rd'));
         $manager->persist($admin);
+        $this->setReference(self::REFERENCE_ADMIN, $admin);
 
         $user = new User();
         $user->setEmailAddress('user@example.com');
@@ -50,6 +66,7 @@ class UserFixtures extends Fixture
         $user->setIsEnabled(true);
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'P4$$w0rd'));
         $manager->persist($user);
+        $this->setReference(self::REFERENCE_USER, $user);
 
         $disabledUser = new User();
         $disabledUser->setEmailAddress('disabled@example.com');
@@ -58,6 +75,7 @@ class UserFixtures extends Fixture
         $disabledUser->setIsEnabled(false);
         $disabledUser->setPassword($this->passwordEncoder->encodePassword($disabledUser, 'P4$$w0rd'));
         $manager->persist($disabledUser);
+        $this->setReference(self::REFERENCE_DISABLED, $disabledUser);
 
         // Add 100 fake users.
         $this->generator = Factory::create();
