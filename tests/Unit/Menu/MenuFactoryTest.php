@@ -60,6 +60,7 @@ class MenuFactoryTest extends TestCase
 
     /**
      * @covers \App\Menu\MenuFactory::guessType
+     * @covers \App\Exception\MenuTypeNotFoundException
      */
     public function testGuessType(): void
     {

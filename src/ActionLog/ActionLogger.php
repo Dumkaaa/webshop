@@ -58,7 +58,12 @@ class ActionLogger
         $actionLog = new ActionLog($action, ClassUtils::getClass($object), $id, $user);
 
         // Create the changes.
+        $nonLoggableProperties = $object->getNonLoggableProperties();
         foreach ($changeSet as $property => $values) {
+            if (in_array($property, $nonLoggableProperties)) {
+                // This property is not loggable, ignore.
+                continue;
+            }
             $oldValue = $this->transformValue($values[0]);
             $newValue = $this->transformValue($values[1]);
             $actionLogChange = new ActionLogChange($actionLog, $property, $oldValue, $newValue);
@@ -73,7 +78,7 @@ class ActionLogger
      *
      * @param mixed $value
      */
-    private function transformValue($value): ?string
+    public function transformValue($value): ?string
     {
         if ($value instanceof \DateTimeInterface) {
             return $value->format('d-m-Y H:i:s');
