@@ -3,7 +3,6 @@
 namespace App\Tests\Functional\Timestampable;
 
 use App\Entity\Admin\User;
-use App\Timestampable\TimestampableSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

@@ -32,7 +32,7 @@ class ActionLogFixtures extends Fixture implements FixtureGroupInterface, Depend
         ];
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var User $admin */
         $admin = $this->getReference(UserFixtures::REFERENCE_ADMIN);

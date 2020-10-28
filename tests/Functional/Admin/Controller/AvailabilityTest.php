@@ -18,7 +18,7 @@ class AvailabilityTest extends DoctrineFixturesTest
 
     protected function loadFixtures(): void
     {
-        /**
+        /*
          * Make sure the fixtures are only loaded once.
          * The availability test does not rely on database changes, plus it would affect the test duration too much.
          */

@@ -35,7 +35,7 @@ class ActionLogFixturesTest extends TestCase
     /**
      * @covers \App\DataFixtures\ActionLogFixtures::getDependencies
      */
-    public function testGetDependencies()
+    public function testGetDependencies(): void
     {
         $fixtures = new ActionLogFixtures();
 

@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @covers \App\DataFixtures\ActionLogFixtures
+ * @covers \App\Repository\ActionLogRepository
+ * @covers \App\Repository\ActionLogChangeRepository
  */
 class ActionLogFixturesTest extends WebTestCase
 {
@@ -68,6 +70,8 @@ class ActionLogFixturesTest extends WebTestCase
 
     /**
      * @covers \App\DataFixtures\ActionLogFixtures::load
+     * @covers \App\Repository\ActionLogRepository
+     * @covers \App\Repository\ActionLogChangeRepository
      */
     public function testFixtures(): void
     {
@@ -75,7 +79,7 @@ class ActionLogFixturesTest extends WebTestCase
         $entityManager = static::$container->get(EntityManagerInterface::class);
         /** @var ActionLogRepository $actionLogRepository */
         $actionLogRepository = static::$container->get(ActionLogRepository::class);
-        /** @var ActionLogChangeRepository $actionLogRepository */
+        /** @var ActionLogChangeRepository $actionLogChangeRepository */
         $actionLogChangeRepository = static::$container->get(ActionLogChangeRepository::class);
         /** @var UserPasswordEncoderInterface $passwordEncoder */
         $passwordEncoder = static::$container->get(UserPasswordEncoderInterface::class);

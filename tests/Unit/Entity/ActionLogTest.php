@@ -42,11 +42,11 @@ class ActionLogTest extends TestCase
     {
         $actionLog = new ActionLog(ActionLog::ACTION_DELETE, 'class', 22, null);
         $this->assertEmpty($actionLog->getChanges());
-        
+
         $change = new ActionLogChange($actionLog, 'property', 'foo', 'bar');
         // Make sure constructing a change with the action log does not add it to the action log yet.
         $this->assertEmpty($actionLog->getChanges());
-        
+
         $actionLog->addChange($change);
         $this->assertNotEmpty($actionLog->getChanges());
         $this->assertContains($change, $actionLog->getChanges());
