@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\DataFixtures;
+namespace App\Tests\Unit\DataFixtures\Admin;
 
 use App\DataFixtures\Admin\UserFixtures;
 use App\DataFixtures\FixtureGroupInterface;
