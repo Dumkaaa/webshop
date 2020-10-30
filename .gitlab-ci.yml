@@ -1,9 +1,8 @@
 image: edbizarro/gitlab-ci-pipeline-php:7.4-alpine
 
 services:
-    mysql:
-        image: mysql:latest
-        command: --sql_mode=""
+    - name: mysql:latest
+      command: ['--sql_mode=""']
 
 variables:
     MYSQL_DATABASE: database
