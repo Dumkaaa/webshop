@@ -52,8 +52,16 @@ admin_user:
     log:
         title: Recent activity
         subject: Subject
-        action: Action
         date: Date
+        empty: This user has no recent activity...
+        action.create: Create
+        action.edit: Edit
+        action.delete: Delete
+        object_class:
+            App\Entity\Admin\User:
+                create: Created a system user
+                edit: Updated details of a system user
+
     created: User created
     saved: User saved
     view_profile: View profile

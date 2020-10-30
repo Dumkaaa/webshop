@@ -37,8 +37,8 @@ class AdminUserManager
         $users = $userRepository->findEnabledByEmailAddresses($emailAddresses, !$enable);
 
         foreach ($users as $user) {
-            if (!$this->security->isGranted(AdminUserVoter::UPDATE_ROLES, $user)) {
-                throw new AccessDeniedException(sprintf('You are not allowed to update the role of the user "%s".', $user->getEmailAddress()));
+            if (!$this->security->isGranted(AdminUserVoter::UPDATE_STATUS, $user)) {
+                throw new AccessDeniedException(sprintf('You are not allowed to update the status of the user "%s".', $user->getEmailAddress()));
             }
 
             $user->setIsEnabled($enable);

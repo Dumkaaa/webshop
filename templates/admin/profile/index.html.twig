@@ -45,37 +45,34 @@
                 <div class="card-body pb-0">
                     <h3 class="card-title">{{ 'admin_user.log.title'|trans }}</h3>
                 </div>
-                <div id="chart-user-logs"></div>
-                <div class="table-responsive">
-                    <table class="table card-table table-vcenter table-striped">
-                        <thead>
-                            <tr>
-                                <th>{{ 'admin_user.log.subject'|trans }}</th>
-                                <th>{{ 'admin_user.log.action'|trans }}</th>
-                                <th>{{ 'admin_user.log.date'|trans }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="td-truncate">
-                                    <div class="text-truncate" data-toggle="tooltip" title="TODO: Implement activity">TODO: Implement activity</div>
-                                </td>
-                                <td class="text-nowrap text-muted">Edit</td>
-                                <td class="text-nowrap text-muted">11 Nov 2020, 11:11</td>
-                            </tr>
-                            <tr>
-                                <td class="td-truncate">
-                                    <div class="text-truncate" data-toggle="tooltip" title="TODO: Implement activity">TODO: Implement activity</div>
-                                </td>
-                                <td class="text-nowrap text-muted">Edit</td>
-                                <td class="text-nowrap text-muted">11 Nov 2020, 11:11</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="#" class="btn btn-primary">Load more...</a>
-                </div>
+                {% if action_log_report.actionLogs|length > 0 %}
+                    <div id="chart-user-logs"></div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'admin_user.log.subject'|trans }}</th>
+                                    <th>{{ 'admin_user.log.date'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for actionLog in action_log_report.actionLogs|reverse|slice(0, 20) %}
+                                    <tr>
+                                        <td class="td-truncate">
+                                            {% set actionLogSubject = ('admin_user.log.object_class.'~actionLog.objectClass~'.'~actionLog.action)|trans %}
+                                            <div class="text-truncate" data-toggle="tooltip" title="{{ actionLogSubject }}">{{ actionLogSubject }}</div>
+                                        </td>
+                                        <td class="text-nowrap text-muted">{{ actionLog.createdAt|format_datetime('medium', 'short') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="card-body pb-0 border-top-0">
+                        <div class="mb-5 text-center text-muted">{{ 'admin_user.log.empty'|trans }}</div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

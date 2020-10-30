@@ -31,10 +31,10 @@ class AdminUserManagerTest extends TestCase
 
         $userRepositoryProphecy->findEnabledByEmailAddresses(['foo@bar.com'], false)->shouldBeCalledTimes(1)->willReturn([$user]);
         $entityManagerProphecy->getRepository(User::class)->shouldBeCalledTimes(1)->willReturn($userRepositoryProphecy->reveal());
-        $securityProphecy->isGranted(AdminUserVoter::UPDATE_ROLES, $user)->shouldBeCalledTimes(1)->willReturn(false);
+        $securityProphecy->isGranted(AdminUserVoter::UPDATE_STATUS, $user)->shouldBeCalledTimes(1)->willReturn(false);
 
         $this->expectException(AccessDeniedException::class);
-        $this->expectExceptionMessage('You are not allowed to update the role of the user "foo@bar.com".');
+        $this->expectExceptionMessage('You are not allowed to update the status of the user "foo@bar.com".');
 
         $manager->toggleEnabled(['foo@bar.com']);
     }
@@ -59,8 +59,8 @@ class AdminUserManagerTest extends TestCase
         $entityManagerProphecy->persist($user1)->shouldBeCalledTimes(1);
         $entityManagerProphecy->persist($user2)->shouldBeCalledTimes(1);
         $entityManagerProphecy->flush()->shouldBeCalledTimes(1);
-        $securityProphecy->isGranted(AdminUserVoter::UPDATE_ROLES, $user1)->shouldBeCalledTimes(1)->willReturn(true);
-        $securityProphecy->isGranted(AdminUserVoter::UPDATE_ROLES, $user2)->shouldBeCalledTimes(1)->willReturn(true);
+        $securityProphecy->isGranted(AdminUserVoter::UPDATE_STATUS, $user1)->shouldBeCalledTimes(1)->willReturn(true);
+        $securityProphecy->isGranted(AdminUserVoter::UPDATE_STATUS, $user2)->shouldBeCalledTimes(1)->willReturn(true);
 
         $this->assertFalse($user1->isEnabled());
         $this->assertFalse($user2->isEnabled());
@@ -93,8 +93,8 @@ class AdminUserManagerTest extends TestCase
         $entityManagerProphecy->persist($user1)->shouldBeCalledTimes(1);
         $entityManagerProphecy->persist($user2)->shouldBeCalledTimes(1);
         $entityManagerProphecy->flush()->shouldBeCalledTimes(1);
-        $securityProphecy->isGranted(AdminUserVoter::UPDATE_ROLES, $user1)->shouldBeCalledTimes(1)->willReturn(true);
-        $securityProphecy->isGranted(AdminUserVoter::UPDATE_ROLES, $user2)->shouldBeCalledTimes(1)->willReturn(true);
+        $securityProphecy->isGranted(AdminUserVoter::UPDATE_STATUS, $user1)->shouldBeCalledTimes(1)->willReturn(true);
+        $securityProphecy->isGranted(AdminUserVoter::UPDATE_STATUS, $user2)->shouldBeCalledTimes(1)->willReturn(true);
 
         $this->assertTrue($user1->isEnabled());
         $this->assertTrue($user2->isEnabled());

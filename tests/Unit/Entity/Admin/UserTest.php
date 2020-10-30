@@ -33,6 +33,7 @@ class UserTest extends TestCase
         $this->assertInstanceOf(TimestampableInterface::class, $user);
         $this->assertInstanceOf(LoggableObjectInterface::class, $user);
         $this->assertSame([
+            'password',
             'lastLoginAt',
             'lastActiveAt',
         ], $user->getNonLoggableProperties());

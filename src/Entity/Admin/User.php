@@ -274,6 +274,7 @@ class User implements UserInterface, TimestampableInterface, LoggableObjectInter
     public function getNonLoggableProperties(): array
     {
         return [
+            'password',
             'lastLoginAt',
             'lastActiveAt',
         ];

@@ -70,7 +70,7 @@ class AdminUserController extends AbstractController
 
         return $this->render('admin/admin_user/index.html.twig', [
             'pagination' => $pagination,
-            'searchQuery' => $searchQuery,
+            'search_query' => $searchQuery,
         ]);
     }
 

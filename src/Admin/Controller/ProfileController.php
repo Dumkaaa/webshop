@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controller;
 
+use App\ActionLog\Report\ActionLogReportFactory;
 use App\Admin\Form\ProfileType;
 use App\Entity\Admin\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,12 +21,14 @@ class ProfileController extends AbstractController
     private TranslatorInterface $translator;
     private EntityManagerInterface $entityManager;
     private UserPasswordEncoderInterface $passwordEncoder;
+    private ActionLogReportFactory $actionLogReportFactory;
 
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, ActionLogReportFactory $actionLogReportFactory)
     {
         $this->translator = $translator;
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->actionLogReportFactory = $actionLogReportFactory;
     }
 
     /**
@@ -56,8 +59,11 @@ class ProfileController extends AbstractController
             $this->addFlash('danger', $this->translator->trans('form.invalid'));
         }
 
+        $actionLogReport = $this->actionLogReportFactory->createForUserLastMonth($user);
+
         return $this->render('admin/profile/index.html.twig', [
             'user' => $user,
+            'action_log_report' => $actionLogReport,
             'form' => $form->createView(),
         ]);
     }
@@ -67,8 +73,11 @@ class ProfileController extends AbstractController
      */
     public function view(User $user): Response
     {
+        $actionLogReport = $this->actionLogReportFactory->createForUserLastMonth($user);
+
         return $this->render('admin/profile/index.html.twig', [
             'user' => $user,
+            'action_log_report' => $actionLogReport,
         ]);
     }
 }
