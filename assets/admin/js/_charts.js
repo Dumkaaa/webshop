@@ -2,30 +2,77 @@ import ApexCharts from 'apexcharts';
 
 (function () {
     /**
-     * User log charts.
+     * Action log charts.
      */
-    const userLogsChart = document.getElementById('chart-user-logs');
-    if (userLogsChart) {
-        new ApexCharts(userLogsChart, {
+    const actionLogsChart = document.getElementById('chart-action-logs');
+    if (actionLogsChart) {
+        new ApexCharts(actionLogsChart, {
             chart: {
                 type: 'bar',
                 fontFamily: 'inherit',
-                height: 100,
+                height: actionLogsChart.dataset.height,
+                parentHeightOffset: 0,
+                toolbar: {
+                    show: false,
+                },
                 sparkline: {
-                    enabled: true
+                    enabled: true,
+                },
+                animations: {
+                    enabled: false,
+                },
+                stacked: true,
+            },
+            grid: {
+                show: true,
+                padding: {
+                    top: 40,
+                },
+                strokeDashArray: 2,
+                xaxis: {
+                    lines: {
+                        show: true,
+                    },
+                },
+            },
+            legend: {
+                show: true,
+                position: 'top',
+                horizontalAlign: 'right',
+                markers: {
+                    width: 8,
+                    height: 8,
+                    radius: 100,
                 },
             },
             series: [{
-                name: 'Purchases',
-                data: [3, 5, 4, 6, 7, 5, 6, 8, 24, 7, 12, 5, 6, 3, 8, 4, 14, 30, 17, 19, 15, 14, 25, 32, 25, 30, 20, 18, 32, 5]
+                name: actionLogsChart.dataset.createLabel,
+                data: JSON.parse(actionLogsChart.dataset.createBar),
+            }, {
+                name: actionLogsChart.dataset.editLabel,
+                data: JSON.parse(actionLogsChart.dataset.editBar),
+            }, {
+                name: actionLogsChart.dataset.deleteLabel,
+                data: JSON.parse(actionLogsChart.dataset.deleteBar),
             }],
-            xaxis: {
-                type: 'datetime',
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%',
+                }
             },
-            labels: [
-                '2020-06-20', '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24', '2020-06-25', '2020-06-26', '2020-06-27', '2020-06-28', '2020-06-29', '2020-06-30', '2020-07-01', '2020-07-02', '2020-07-03', '2020-07-04', '2020-07-05', '2020-07-06', '2020-07-07', '2020-07-08', '2020-07-09', '2020-07-10', '2020-07-11', '2020-07-12', '2020-07-13', '2020-07-14', '2020-07-15', '2020-07-16', '2020-07-17', '2020-07-18', '2020-07-19'
-            ],
-            colors: ['#206bc4'],
+            dataLabels: {
+                enabled: false,
+            },
+            yaxis: {
+                labels: {
+                    // Fix float to integer.
+                    formatter: function(val) {
+                        return Math.floor(val);
+                    },
+                },
+            },
+            labels: JSON.parse(actionLogsChart.dataset.labels),
+            colors: ['#bfe399', '#a6c4e7', '#eba6a5'],
         }).render();
     }
 })();
