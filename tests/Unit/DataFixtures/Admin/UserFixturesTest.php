@@ -28,6 +28,7 @@ class UserFixturesTest extends TestCase
         $this->assertSame([
             FixtureGroupInterface::ADMIN,
             FixtureGroupInterface::ADMIN_USER,
+            FixtureGroupInterface::ADMIN_LOGS,
         ], UserFixtures::getGroups());
     }
 }
