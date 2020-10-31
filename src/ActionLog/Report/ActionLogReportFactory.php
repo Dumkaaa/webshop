@@ -41,28 +41,14 @@ class ActionLogReportFactory
         $endDate = $period->getEndDate();
         $interval = $period->getDateInterval();
 
-        /**
-         * Find all action logs for the user in this period grouped by the action, user, object class & createdAt.
-         * This way bulk actions won't be seen as loads of different actions and distort the report data.
-         */
-        $actionLogs = $this->actionLogRepository->createQueryBuilder('a')
-            ->where('IDENTITY(a.user) = :userId')
-            ->andWhere('a.createdAt >= :startDate')
-            ->andWhere('a.createdAt < :endDate')
-            ->setParameters([
-                'userId' => $user->getId(),
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-            ])
-            ->groupBy('a.action, a.user, a.objectClass, a.createdAt')
-            ->orderBy('a.createdAt')
-            ->getQuery()
-            ->getResult();
+        // Retrieve the action logs.
+        $actionLogs = $this->actionLogRepository->findGroupedForUserBetween($user, $startDate, $endDate);
 
         // Generate report entries.
         $entries = [];
         $actionLogCount = count($actionLogs);
         $actionLogIndex = 0; // Use this to keep track of the action log index in the period foreach loop.
+        $reportedActionLogs = [];
 
         /** @var \DateTimeImmutable $dateFrom */
         foreach ($period as $dateFrom) {
@@ -95,6 +81,9 @@ class ActionLogReportFactory
                         break;
                 }
 
+                // Mark this action log as reported so it's included in the report.
+                $reportedActionLogs[] = $actionLog;
+
                 // Continue to the next action log.
                 ++$actionLogIndex;
             }
@@ -104,6 +93,6 @@ class ActionLogReportFactory
         }
 
         // Create the report itself.
-        return new ActionLogReport($period, $actionLogs, $entries, $user);
+        return new ActionLogReport($period, $reportedActionLogs, $entries, $user);
     }
 }

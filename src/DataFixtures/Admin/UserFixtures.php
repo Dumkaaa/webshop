@@ -34,6 +34,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         return [
             FixtureGroupInterface::ADMIN,
             FixtureGroupInterface::ADMIN_USER,
+            FixtureGroupInterface::ADMIN_LOGS,
         ];
     }
 
