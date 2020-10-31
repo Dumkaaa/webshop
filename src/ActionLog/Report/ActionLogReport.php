@@ -2,6 +2,7 @@
 
 namespace App\ActionLog\Report;
 
+use App\Admin\Chart\BarChart;
 use App\Entity\ActionLog;
 use App\Entity\Admin\User;
 
@@ -23,6 +24,7 @@ class ActionLogReport
      */
     private array $entries;
     private User $user;
+    private ?BarChart $barChart = null;
 
     /**
      * @param \DatePeriod<\DateTimeImmutable> $datePeriod
@@ -68,5 +70,33 @@ class ActionLogReport
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    /**
+     * Transforms the report into a bar chart.
+     */
+    public function getBarChart(): BarChart
+    {
+        // Create the bar chart if it has not been created before.
+        if (!$this->barChart) {
+            $labels = [];
+            $createBar = [];
+            $editBar = [];
+            $deleteBar = [];
+            foreach ($this->entries as $entry) {
+                $labels[] = $entry->getDateFrom()->format('d-m-Y');
+                $createBar[] = count($entry->getActionLogsCreate());
+                $editBar[] = count($entry->getActionLogsEdit());
+                $deleteBar[] = count($entry->getActionLogsDelete());
+            }
+
+            $this->barChart = new BarChart($labels, [
+                $createBar,
+                $editBar,
+                $deleteBar,
+            ]);
+        }
+
+        return $this->barChart;
     }
 }

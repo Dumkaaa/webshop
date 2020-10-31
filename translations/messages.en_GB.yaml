@@ -54,9 +54,9 @@ admin_user:
         subject: Subject
         date: Date
         empty: This user has no recent activity...
-        action.create: Create
-        action.edit: Edit
-        action.delete: Delete
+        created: Created
+        edited: Edited
+        deleted: Deleted
         object_class:
             App\Entity\Admin\User:
                 create: Created a system user

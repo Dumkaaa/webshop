@@ -46,7 +46,16 @@
                     <h3 class="card-title">{{ 'admin_user.log.title'|trans }}</h3>
                 </div>
                 {% if action_log_report.actionLogs|length > 0 %}
-                    <div id="chart-user-logs"></div>
+                    <div id="chart-action-logs"
+                         data-height="130"
+                         data-labels="{{ action_log_report.barChart.labels|json_encode }}"
+                         data-create-label="{{ 'admin_user.log.created'|trans }}"
+                         data-create-bar="{{ action_log_report.barChart.bars[0]|json_encode }}"
+                         data-edit-label="{{ 'admin_user.log.edited'|trans }}"
+                         data-edit-bar="{{ action_log_report.barChart.bars[1]|json_encode }}"
+                         data-delete-label="{{ 'admin_user.log.deleted'|trans }}"
+                         data-delete-bar="{{ action_log_report.barChart.bars[2]|json_encode }}"
+                    ></div>
                     <div class="table-responsive">
                         <table class="table card-table table-vcenter table-striped">
                             <thead>
